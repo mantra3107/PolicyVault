@@ -1,28 +1,31 @@
 import Sidebar from "../components/Sidebar";
+import Topbar from "../components/Topbar";
 import "./AppLayout.css";
 
 function AppLayout() {
-  return (
-    <div className="pv-app-layout">
-      <Sidebar />
+    return (
+        <div className="pv-app-layout">
+            <Sidebar />
 
-      <main className="pv-main-content">
-        <div className="pv-page-content">
-          <div className="section-label mb-3">
-            Your vault
-          </div>
+            <main className="pv-main-content">
+                <Topbar />
 
-          <h1 className="page-heading">
-            Welcome to PolicyVault
-          </h1>
+                <div className="pv-page-content">
+                    <div className="section-label mb-3">
+                        Your vault
+                    </div>
 
-          <p className="mt-3">
-            Your insurance information, organized in one place.
-          </p>
+                    <h1 className="page-heading">
+                        Welcome to PolicyVault
+                    </h1>
+
+                    <p className="mt-3">
+                        Your insurance information, organized in one place.
+                    </p>
+                </div>
+            </main>
         </div>
-      </main>
-    </div>
-  );
+    );
 }
 
 export default AppLayout;

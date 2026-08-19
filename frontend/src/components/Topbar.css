@@ -1,0 +1,157 @@
+.pv-topbar {
+    position: sticky;
+    top: 0;
+
+    height: var(--pv-topbar-height);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 2.5rem;
+
+    background-color: var(--pv-surface);
+    border-bottom: 1px solid var(--pv-border);
+
+    z-index: 900;
+}
+
+.pv-topbar-search {
+    display: flex;
+    align-items: center;
+
+    width: min(420px, 45%);
+
+    color: var(--pv-text-muted);
+}
+
+.pv-topbar-search i {
+    margin-right: 0.8rem;
+    font-size: 1rem;
+}
+
+.pv-topbar-search input {
+    width: 100%;
+
+    padding: 0.5rem 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: var(--pv-text);
+    font-size: 0.95rem;
+}
+
+.pv-topbar-search input::placeholder {
+    color: #9aa59f;
+}
+
+.pv-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.pv-icon-button {
+    position: relative;
+
+    width: 2.5rem;
+    height: 2.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    background: transparent;
+
+    color: var(--pv-text);
+
+    cursor: pointer;
+
+    border-radius: 50%;
+
+    transition: background-color 0.2s ease;
+}
+
+.pv-icon-button:hover {
+    background-color: var(--pv-green-light);
+}
+
+.pv-icon-button i {
+    font-size: 1.15rem;
+}
+
+.pv-notification-dot {
+    position: absolute;
+
+    top: 0.35rem;
+    right: 0.35rem;
+
+    width: 0.42rem;
+    height: 0.42rem;
+
+    background-color: var(--pv-danger);
+
+    border: 2px solid var(--pv-surface);
+
+    border-radius: 50%;
+}
+
+.pv-user-button {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+
+    padding: 0.3rem;
+
+    border: none;
+    background: transparent;
+
+    color: var(--pv-text);
+
+    cursor: pointer;
+}
+
+.pv-user-avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+    color: var(--pv-green);
+
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.pv-user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+@media (max-width: 767.98px) {
+    .pv-topbar {
+        height: 72px;
+        padding: 0 1rem;
+    }
+
+    .pv-topbar-search {
+        width: 55%;
+    }
+
+    .pv-user-name {
+        display: none;
+    }
+
+    .pv-topbar-actions {
+        gap: 0.5rem;
+    }
+}
