@@ -1,0 +1,104 @@
+.pv-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: var(--pv-sidebar-width);
+  height: 100vh;
+
+  background-color: var(--pv-green);
+  color: #ffffff;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 2rem 1.5rem;
+
+  z-index: 1000;
+}
+
+.pv-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  margin-bottom: 4rem;
+}
+
+.pv-brand-icon {
+  width: 2rem;
+  height: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pv-sidebar-section {
+  flex: 0 0 auto;
+}
+
+.pv-sidebar-label {
+  margin-bottom: 1rem;
+
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.pv-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.pv-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+
+  width: 100%;
+
+  padding: 0.75rem 0.65rem;
+
+  border: none;
+  background: transparent;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 0.95rem;
+
+  text-align: left;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.pv-sidebar-link i {
+  width: 1.25rem;
+  font-size: 1rem;
+}
+
+.pv-sidebar-link:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.pv-sidebar-link.active {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.pv-sidebar-account {
+  margin-top: auto;
+}
+
+.pv-sidebar-button {
+  cursor: pointer;
+}

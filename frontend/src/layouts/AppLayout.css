@@ -1,0 +1,30 @@
+.pv-app-layout {
+  min-height: 100vh;
+  background-color: var(--pv-cream);
+}
+
+.pv-main-content {
+  min-height: 100vh;
+  margin-left: var(--pv-sidebar-width);
+}
+
+.pv-page-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4rem 4.5rem;
+}
+
+.pv-page-content p {
+  color: var(--pv-text-muted);
+  font-size: 1.05rem;
+}
+
+@media (max-width: 991.98px) {
+  .pv-main-content {
+    margin-left: 0;
+  }
+
+  .pv-page-content {
+    padding: 3rem 2rem;
+  }
+}
