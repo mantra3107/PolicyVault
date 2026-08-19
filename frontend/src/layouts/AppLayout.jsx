@@ -2,7 +2,7 @@ import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 import "./AppLayout.css";
 
-function AppLayout() {
+function AppLayout({ children }) {
     return (
         <div className="pv-app-layout">
             <Sidebar />
@@ -11,17 +11,7 @@ function AppLayout() {
                 <Topbar />
 
                 <div className="pv-page-content">
-                    <div className="section-label mb-3">
-                        Your vault
-                    </div>
-
-                    <h1 className="page-heading">
-                        Welcome to PolicyVault
-                    </h1>
-
-                    <p className="mt-3">
-                        Your insurance information, organized in one place.
-                    </p>
+                    {children}
                 </div>
             </main>
         </div>

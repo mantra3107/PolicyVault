@@ -1,0 +1,69 @@
+.pv-stat-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+
+    min-height: 150px;
+
+    padding: 1.35rem;
+
+    background-color: var(--pv-surface);
+    border: 1px solid var(--pv-border);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.pv-stat-card:hover {
+    transform: translateY(-2px);
+    border-color: #cfc7b7;
+}
+
+.pv-stat-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+    color: var(--pv-green);
+}
+
+.pv-stat-icon i {
+    font-size: 1rem;
+}
+
+.pv-stat-content {
+    min-width: 0;
+}
+
+.pv-stat-title {
+    margin-bottom: 0.7rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.88rem;
+}
+
+.pv-stat-value {
+    margin-bottom: 0.35rem;
+
+    color: var(--pv-text);
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.8rem;
+    line-height: 1.1;
+}
+
+.pv-stat-description {
+    color: var(--pv-text-muted);
+
+    font-size: 0.78rem;
+}
