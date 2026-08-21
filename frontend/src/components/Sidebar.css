@@ -102,3 +102,9 @@
 .pv-sidebar-button {
   cursor: pointer;
 }
+
+@media (max-width: 767.98px) {
+    .pv-sidebar {
+        display: none;
+    }
+}

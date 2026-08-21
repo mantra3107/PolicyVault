@@ -1,6 +1,9 @@
 .pv-topbar {
-    position: sticky;
+    position: fixed;
+
     top: 0;
+    right: 0;
+    left: var(--pv-sidebar-width);
 
     height: var(--pv-topbar-height);
 
@@ -8,32 +11,37 @@
     align-items: center;
     justify-content: space-between;
 
-    padding: 0 2.5rem;
+    padding: 0 2rem;
 
     background-color: var(--pv-surface);
+
     border-bottom: 1px solid var(--pv-border);
 
-    z-index: 900;
+    z-index: 1000;
 }
+
+
+/* Search */
 
 .pv-topbar-search {
     display: flex;
     align-items: center;
 
-    width: min(420px, 45%);
+    gap: 0.8rem;
+
+    width: min(520px, 60%);
 
     color: var(--pv-text-muted);
 }
 
 .pv-topbar-search i {
-    margin-right: 0.8rem;
-    font-size: 1rem;
+    font-size: 1.15rem;
 }
 
 .pv-topbar-search input {
     width: 100%;
 
-    padding: 0.5rem 0;
+    padding: 0;
 
     border: none;
     outline: none;
@@ -41,18 +49,26 @@
     background: transparent;
 
     color: var(--pv-text);
-    font-size: 0.95rem;
+
+    font-size: 1rem;
 }
 
 .pv-topbar-search input::placeholder {
-    color: #9aa59f;
+    color: #9aa6a1;
 }
+
+
+/* Right side */
 
 .pv-topbar-actions {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+
+    gap: 1rem;
 }
+
+
+/* Notification */
 
 .pv-icon-button {
     position: relative;
@@ -64,50 +80,56 @@
     align-items: center;
     justify-content: center;
 
+    padding: 0;
+
     border: none;
+    outline: none;
+
     background: transparent;
 
     color: var(--pv-text);
 
     cursor: pointer;
-
-    border-radius: 50%;
-
-    transition: background-color 0.2s ease;
 }
 
 .pv-icon-button:hover {
-    background-color: var(--pv-green-light);
+    color: var(--pv-green);
 }
 
 .pv-icon-button i {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
 }
 
 .pv-notification-dot {
     position: absolute;
 
-    top: 0.35rem;
-    right: 0.35rem;
+    top: 4px;
+    right: 4px;
 
-    width: 0.42rem;
-    height: 0.42rem;
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
 
     background-color: var(--pv-danger);
 
-    border: 2px solid var(--pv-surface);
-
-    border-radius: 50%;
+    border: 1px solid var(--pv-surface);
 }
+
+
+/* User */
 
 .pv-user-button {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
 
-    padding: 0.3rem;
+    gap: 0.65rem;
+
+    padding: 0;
 
     border: none;
+    outline: none;
+
     background: transparent;
 
     color: var(--pv-text);
@@ -115,43 +137,119 @@
     cursor: pointer;
 }
 
+.pv-user-button:hover .pv-user-name {
+    color: var(--pv-green);
+}
+
 .pv-user-avatar {
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 2.8rem;
+    height: 2.8rem;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
+    flex-shrink: 0;
+
     border-radius: 50%;
 
     background-color: var(--pv-green-light);
+
     color: var(--pv-green);
 
-    font-size: 0.85rem;
-    font-weight: 700;
-}
-
-.pv-user-name {
     font-size: 0.9rem;
     font-weight: 600;
 }
 
+.pv-user-name {
+    color: var(--pv-text);
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* Tablet */
+
+@media (max-width: 991.98px) {
+    .pv-topbar {
+        padding: 0 1.5rem;
+    }
+
+    .pv-topbar-search {
+        width: 50%;
+    }
+}
+
+
+/* Mobile */
+
 @media (max-width: 767.98px) {
     .pv-topbar {
+        position: fixed;
+
+        top: 0;
+        left: 0;
+        right: 0;
+
+        width: 100%;
         height: 72px;
+
         padding: 0 1rem;
     }
 
     .pv-topbar-search {
-        width: 55%;
+        width: auto;
+
+        flex: 1;
+
+        min-width: 0;
+
+        gap: 0.6rem;
+    }
+
+    .pv-topbar-search i {
+        font-size: 1.1rem;
+    }
+
+    .pv-topbar-search input {
+        font-size: 0.9rem;
+    }
+
+    .pv-topbar-actions {
+        gap: 0.35rem;
+    }
+
+    .pv-icon-button {
+        width: 2.3rem;
+        height: 2.3rem;
+    }
+
+    .pv-user-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
     }
 
     .pv-user-name {
         display: none;
     }
+}
 
-    .pv-topbar-actions {
-        gap: 0.5rem;
+
+/* Small mobile */
+
+@media (max-width: 400px) {
+    .pv-topbar {
+        padding: 0 0.75rem;
+    }
+
+    .pv-topbar-search {
+        max-width: 200px;
+    }
+
+    .pv-topbar-search input {
+        font-size: 0.82rem;
     }
 }

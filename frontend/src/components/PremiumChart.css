@@ -1,0 +1,112 @@
+.pv-premium-chart {
+    overflow: hidden;
+}
+
+.pv-chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 1.5rem 1.5rem 1rem;
+
+    border-bottom: 1px solid var(--pv-border);
+}
+
+.pv-chart-header h2 {
+    margin: 0.45rem 0 0;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.55rem;
+    font-weight: 400;
+}
+
+.pv-chart-period {
+    padding: 0.35rem 0.65rem;
+
+    background-color: var(--pv-green-light);
+    color: var(--pv-green);
+
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.pv-chart-wrapper {
+    width: 100%;
+
+    padding: 1.2rem 1rem 0;
+}
+
+.pv-chart {
+    display: block;
+
+    width: 100%;
+    height: auto;
+}
+
+.pv-chart-axis {
+    stroke: var(--pv-border);
+    stroke-width: 1;
+}
+
+.pv-chart-grid {
+    stroke: var(--pv-border);
+    stroke-width: 1;
+    stroke-dasharray: 4 5;
+}
+
+.pv-chart-line {
+    fill: none;
+
+    stroke: var(--pv-green);
+    stroke-width: 3;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.pv-chart-point {
+    fill: var(--pv-surface);
+
+    stroke: var(--pv-green);
+    stroke-width: 3;
+}
+
+.pv-chart-label {
+    fill: var(--pv-text-muted);
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+.pv-chart-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 0 1.5rem;
+    padding: 1rem 0 1.3rem;
+
+    border-top: 1px solid var(--pv-border);
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.78rem;
+}
+
+.pv-chart-footer strong {
+    color: var(--pv-text);
+
+    font-size: 0.85rem;
+}
+
+@media (max-width: 575.98px) {
+    .pv-chart-footer {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 0.35rem;
+    }
+}

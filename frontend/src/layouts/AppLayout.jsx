@@ -7,7 +7,7 @@ function AppLayout({ children }) {
         <div className="pv-app-layout">
             <Sidebar />
 
-            <main className="pv-main-content">
+            <main className="pv-main">
                 <Topbar />
 
                 <div className="pv-page-content">
