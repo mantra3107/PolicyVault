@@ -1,11 +1,22 @@
+import { useNavigate } from "react-router";
 import "./DashboardHeader.css";
 
 function DashboardHeader() {
+    const navigate = useNavigate();
+
+    const today = new Date();
+
+    const date = today.toLocaleDateString("en-IN", {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+    });
+
     return (
         <section className="pv-dashboard-header">
             <div>
                 <div className="section-label mb-3">
-                    Tuesday, 19 August
+                    {date}
                 </div>
 
                 <h1 className="page-heading">
@@ -17,7 +28,10 @@ function DashboardHeader() {
                 </p>
             </div>
 
-            <button className="pv-btn pv-add-policy-btn">
+            <button
+                className="pv-btn pv-add-policy-btn"
+                onClick={() => navigate("/policies")}
+            >
                 <i className="bi bi-plus-lg"></i>
                 <span>Add a policy</span>
             </button>

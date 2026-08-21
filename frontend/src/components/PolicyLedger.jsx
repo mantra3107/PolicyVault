@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router";
 import "./PolicyLedger.css";
 
 function PolicyLedger() {
+    const navigate = useNavigate();
+
     const policies = [
         {
             name: "Secure Future Plan",
@@ -41,7 +44,10 @@ function PolicyLedger() {
                     </h2>
                 </div>
 
-                <button className="pv-ledger-view-all">
+                <button
+                    className="pv-ledger-view-all"
+                    onClick={() => navigate("/policies")}
+                >
                     View all
                     <i className="bi bi-arrow-right"></i>
                 </button>

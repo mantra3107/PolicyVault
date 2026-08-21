@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router";
 import "./PaymentAlert.css";
 
 function PaymentAlert() {
+    const navigate = useNavigate();
+
     return (
         <section className="pv-payment-alert">
             <div className="pv-payment-alert-icon">
@@ -15,7 +18,10 @@ function PaymentAlert() {
                 </p>
             </div>
 
-            <button className="pv-payment-alert-action">
+            <button
+                className="pv-payment-alert-action"
+                onClick={() => navigate("/payments")}
+            >
                 <span>Open payments</span>
                 <i className="bi bi-arrow-right"></i>
             </button>
