@@ -1,0 +1,665 @@
+/* =========================================
+   Analytics Page
+========================================= */
+
+.pv-analytics-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   Header
+========================================= */
+
+.pv-analytics-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 2rem;
+
+    margin-bottom: 2rem;
+}
+
+.pv-analytics-header .page-heading {
+    margin: 0.35rem 0 0;
+}
+
+.pv-analytics-subtitle {
+    margin: 0.75rem 0 0;
+
+    color: var(--pv-text-muted);
+
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.pv-analytics-header .pv-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   Summary Cards
+========================================= */
+
+.pv-analytics-summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 1rem;
+
+    margin-bottom: 2rem;
+}
+
+.pv-analytics-summary-card {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 1rem;
+
+    padding: 1.5rem;
+}
+
+.pv-analytics-summary-icon {
+    width: 2.6rem;
+    height: 2.6rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+
+    font-size: 1.05rem;
+}
+
+.pv-analytics-summary-card > div:last-child {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+.pv-analytics-summary-card span {
+    color: var(--pv-text-muted);
+
+    font-size: 0.82rem;
+}
+
+.pv-analytics-summary-card strong {
+    margin-top: 0.35rem;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 1.65rem;
+
+    font-weight: 400;
+
+    line-height: 1.2;
+}
+
+.pv-analytics-summary-card small {
+    margin-top: 0.35rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.72rem;
+}
+
+
+/* =========================================
+   Main Analytics Grid
+========================================= */
+
+.pv-analytics-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.25fr)
+        minmax(0, 0.85fr);
+
+    gap: 1.5rem;
+
+    margin-bottom: 1.5rem;
+}
+
+.pv-analytics-card {
+    overflow: hidden;
+}
+
+
+/* =========================================
+   Card Header
+========================================= */
+
+.pv-analytics-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding: 1.5rem 1.75rem;
+
+    border-bottom: 1px solid var(--pv-border);
+}
+
+.pv-analytics-card-header h2 {
+    margin: 0.4rem 0 0;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 1.55rem;
+
+    font-weight: 400;
+}
+
+.pv-analytics-card-header > span {
+    padding: 0.45rem 0.65rem;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+
+    font-size: 0.65rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   Policy Distribution
+========================================= */
+
+.pv-policy-distribution {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.25rem;
+
+    padding: 1.5rem 1.75rem;
+}
+
+.pv-distribution-item {
+    position: relative;
+}
+
+.pv-distribution-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-bottom: 0.55rem;
+}
+
+.pv-distribution-name {
+    display: flex;
+    align-items: center;
+
+    gap: 0.55rem;
+}
+
+.pv-distribution-name strong {
+    font-size: 0.82rem;
+}
+
+.pv-distribution-top > span {
+    color: var(--pv-text-muted);
+
+    font-size: 0.72rem;
+}
+
+.pv-distribution-marker {
+    width: 0.55rem;
+    height: 0.55rem;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green);
+}
+
+.pv-marker-1 {
+    background-color: var(--pv-warning);
+}
+
+.pv-marker-2 {
+    background-color: var(--pv-success);
+}
+
+.pv-marker-3 {
+    background-color: var(--pv-text-muted);
+}
+
+.pv-distribution-bar {
+    width: 100%;
+    height: 0.5rem;
+
+    overflow: hidden;
+
+    background-color: #ebe7dc;
+}
+
+.pv-distribution-fill {
+    height: 100%;
+
+    background-color: var(--pv-green);
+
+    transition: width 0.4s ease;
+}
+
+.pv-fill-1 {
+    background-color: var(--pv-warning);
+}
+
+.pv-fill-2 {
+    background-color: var(--pv-success);
+}
+
+.pv-fill-3 {
+    background-color: var(--pv-text-muted);
+}
+
+.pv-distribution-percentage {
+    margin-top: 0.3rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.65rem;
+
+    text-align: right;
+}
+
+
+/* =========================================
+   Coverage Highlight
+========================================= */
+
+.pv-coverage-highlight {
+    display: flex;
+    align-items: center;
+
+    gap: 1rem;
+
+    margin: 1.5rem 1.75rem;
+
+    padding: 1.25rem;
+
+    background-color: #faf7ef;
+}
+
+.pv-coverage-highlight-icon {
+    width: 3rem;
+    height: 3rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+
+    font-size: 1.2rem;
+}
+
+.pv-coverage-highlight > div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.pv-coverage-highlight span {
+    color: var(--pv-text-muted);
+
+    font-size: 0.75rem;
+}
+
+.pv-coverage-highlight strong {
+    margin-top: 0.25rem;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 1.7rem;
+
+    font-weight: 400;
+}
+
+.pv-coverage-highlight small {
+    margin-top: 0.25rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.68rem;
+}
+
+.pv-coverage-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    border-top: 1px solid var(--pv-border);
+}
+
+.pv-coverage-stats > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.35rem;
+
+    padding: 1rem 1.25rem;
+}
+
+.pv-coverage-stats > div + div {
+    border-left: 1px solid var(--pv-border);
+}
+
+.pv-coverage-stats span {
+    color: var(--pv-text-muted);
+
+    font-size: 0.68rem;
+}
+
+.pv-coverage-stats strong {
+    font-size: 1rem;
+}
+
+
+/* =========================================
+   Breakdown Cards
+========================================= */
+
+.pv-breakdown-card {
+    margin-bottom: 1.5rem;
+}
+
+.pv-breakdown-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.pv-breakdown-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(220px, 1fr)
+        minmax(160px, 1.5fr)
+        100px;
+
+    align-items: center;
+
+    gap: 1.5rem;
+
+    width: 100%;
+
+    padding: 1rem 1.75rem;
+
+    border: 0;
+
+    border-bottom: 1px solid var(--pv-border);
+
+    background-color: transparent;
+
+    color: var(--pv-text);
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.pv-breakdown-row:last-child {
+    border-bottom: 0;
+}
+
+.pv-breakdown-row:hover {
+    background-color: #faf7ef;
+}
+
+.pv-breakdown-label {
+    display: flex;
+    align-items: center;
+
+    gap: 0.8rem;
+
+    min-width: 0;
+}
+
+.pv-breakdown-icon {
+    width: 2.35rem;
+    height: 2.35rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+}
+
+.pv-breakdown-label > div:last-child {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+.pv-breakdown-label strong {
+    overflow: hidden;
+
+    font-size: 0.8rem;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+.pv-breakdown-label span {
+    margin-top: 0.2rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.7rem;
+}
+
+.pv-breakdown-bar-wrapper {
+    width: 100%;
+}
+
+.pv-breakdown-bar {
+    width: 100%;
+    height: 0.5rem;
+
+    overflow: hidden;
+
+    background-color: #ebe7dc;
+}
+
+.pv-breakdown-fill {
+    height: 100%;
+
+    background-color: var(--pv-green);
+
+    transition: width 0.4s ease;
+}
+
+.pv-coverage-fill {
+    background-color: var(--pv-success);
+}
+
+.pv-breakdown-value {
+    font-size: 0.82rem;
+
+    font-weight: 700;
+
+    text-align: right;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   Empty State
+========================================= */
+
+.pv-analytics-empty {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    padding: 2.5rem;
+
+    color: var(--pv-text-muted);
+
+    text-align: center;
+}
+
+.pv-analytics-empty i {
+    font-size: 1.8rem;
+}
+
+.pv-analytics-empty p {
+    margin: 0.6rem 0 0;
+
+    font-size: 0.8rem;
+}
+
+
+/* =========================================
+   Tablet
+========================================= */
+
+@media (max-width: 1199.98px) {
+
+    .pv-analytics-summary {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .pv-analytics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================
+   Mobile
+========================================= */
+
+@media (max-width: 767.98px) {
+
+    .pv-analytics-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        margin-bottom: 1.5rem;
+    }
+
+    .pv-analytics-header .page-heading {
+        font-size: 2.5rem;
+    }
+
+    .pv-analytics-summary {
+        grid-template-columns: 1fr;
+
+        gap: 0.75rem;
+
+        margin-bottom: 1.5rem;
+    }
+
+    .pv-analytics-summary-card {
+        padding: 1.25rem;
+    }
+
+    .pv-analytics-grid {
+        gap: 1.25rem;
+
+        margin-bottom: 1.25rem;
+    }
+
+    .pv-analytics-card-header {
+        align-items: flex-start;
+
+        padding: 1.25rem;
+    }
+
+    .pv-analytics-card-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .pv-policy-distribution {
+        padding: 1.25rem;
+    }
+
+    .pv-coverage-highlight {
+        margin: 1.25rem;
+
+        padding: 1rem;
+    }
+
+    .pv-coverage-highlight strong {
+        font-size: 1.45rem;
+    }
+
+    .pv-coverage-stats > div {
+        padding: 0.9rem 0.8rem;
+    }
+
+    .pv-breakdown-card {
+        margin-bottom: 1.25rem;
+    }
+
+    .pv-breakdown-row {
+        grid-template-columns:
+            1fr auto;
+
+        gap: 0.8rem;
+
+        padding: 1rem 1.25rem;
+    }
+
+    .pv-breakdown-bar-wrapper {
+        grid-column: 1 / -1;
+
+        grid-row: 2;
+    }
+
+    .pv-breakdown-value {
+        grid-column: 2;
+        grid-row: 1;
+    }
+}
