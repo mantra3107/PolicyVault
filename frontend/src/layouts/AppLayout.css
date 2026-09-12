@@ -1,8 +1,16 @@
-.pv-app-layout {
-    min-height: 100vh;
+/* =========================================
+   Main Application Layout
+========================================= */
 
+.pv-app {
+    min-height: 100vh;
     background-color: var(--pv-creme);
 }
+
+
+/* =========================================
+   Main Content Area
+========================================= */
 
 .pv-main {
     min-height: 100vh;
@@ -12,7 +20,12 @@
     padding-top: var(--pv-topbar-height);
 }
 
-.pv-page-content {
+
+/* =========================================
+   Page Content
+========================================= */
+
+.pv-content {
     width: 100%;
     max-width: 1400px;
 
@@ -22,22 +35,28 @@
 }
 
 
-/* Tablet */
+/* =========================================
+   Tablet
+========================================= */
 
 @media (max-width: 991.98px) {
+
     .pv-main {
         margin-left: var(--pv-sidebar-width);
     }
 
-    .pv-page-content {
+    .pv-content {
         padding: 2rem;
     }
 }
 
 
-/* Mobile */
+/* =========================================
+   Mobile
+========================================= */
 
 @media (max-width: 767.98px) {
+
     .pv-main {
         width: 100%;
         min-height: 100vh;
@@ -47,7 +66,7 @@
         padding-top: 72px;
     }
 
-    .pv-page-content {
+    .pv-content {
         width: 100%;
 
         padding: 1.5rem 1rem;

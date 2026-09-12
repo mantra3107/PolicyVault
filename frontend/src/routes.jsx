@@ -1,7 +1,11 @@
-import { Routes, Route, Navigate } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
+import AppLayout from "./layouts/AppLayout";
 
 import Dashboard from "./pages/Dashboard";
 import Policies from "./pages/Policies";
+import AddPolicy from "./pages/AddPolicy";
+import PolicyDetails from "./pages/PolicyDetails";
+
 import Payments from "./pages/Payments";
 import Calendar from "./pages/Calendar";
 import Analytics from "./pages/Analytics";
@@ -11,45 +15,67 @@ import Settings from "./pages/Settings";
 function AppRoutes() {
     return (
         <Routes>
-            <Route
-                path="/"
-                element={<Navigate to="/dashboard" replace />}
-            />
 
-            <Route
-                path="/dashboard"
-                element={<Dashboard />}
-            />
+            <Route element={<AppLayout />}>
 
-            <Route
-                path="/policies"
-                element={<Policies />}
-            />
+                {/* Default route */}
+                <Route
+                    index
+                    element={<Navigate to="/dashboard" replace />}
+                />
 
-            <Route
-                path="/payments"
-                element={<Payments />}
-            />
+                {/* Dashboard */}
+                <Route
+                    path="/dashboard"
+                    element={<Dashboard />}
+                />
 
-            <Route
-                path="/calendar"
-                element={<Calendar />}
-            />
+                {/* Policies */}
+                <Route
+                    path="/policies"
+                    element={<Policies />}
+                />
 
-            <Route
-                path="/analytics"
-                element={<Analytics />}
-            />
+                {/* Add Policy */}
+                <Route
+                    path="/policies/add"
+                    element={<AddPolicy />}
+                />
 
-            <Route
-                path="/family"
-                element={<Family />}
-            />
+                {/* Policy Details */}
+                <Route
+                    path="/policies/:id"
+                    element={<PolicyDetails />}
+                />
 
-            <Route
-                path="/settings"
-                element={<Settings />}
-            />
+                {/* Other pages */}
+                <Route
+                    path="/payments"
+                    element={<Payments />}
+                />
+
+                <Route
+                    path="/calendar"
+                    element={<Calendar />}
+                />
+
+                <Route
+                    path="/analytics"
+                    element={<Analytics />}
+                />
+
+                <Route
+                    path="/family"
+                    element={<Family />}
+                />
+
+                <Route
+                    path="/settings"
+                    element={<Settings />}
+                />
+
+            </Route>
+
         </Routes>
     );
 }

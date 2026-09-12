@@ -1,35 +1,11 @@
 import { useNavigate } from "react-router";
+import { getPolicies } from "../data/policyStore";
 import "./PolicyLedger.css";
 
 function PolicyLedger() {
     const navigate = useNavigate();
 
-    const policies = [
-        {
-            name: "Secure Future Plan",
-            number: "123456789",
-            premium: "₹2,500",
-            frequency: "monthly",
-            nextPayment: "10 Sep 2026",
-            status: "Active"
-        },
-        {
-            name: "Family Protection Plan",
-            number: "987654321",
-            premium: "₹1,800",
-            frequency: "monthly",
-            nextPayment: "15 Sep 2026",
-            status: "Active"
-        },
-        {
-            name: "Retirement Secure",
-            number: "456789123",
-            premium: "₹4,200",
-            frequency: "monthly",
-            nextPayment: "20 Sep 2026",
-            status: "Active"
-        }
-    ];
+    const policies = getPolicies();
 
     return (
         <section className="pv-policy-ledger surface">
@@ -57,8 +33,9 @@ function PolicyLedger() {
                 {policies.map((policy) => (
                     <div
                         className="pv-policy-row"
-                        key={policy.number}
+                        key={policy.id}
                     >
+                        {/* Policy information */}
                         <div className="pv-policy-main">
                             <div className="pv-policy-icon">
                                 <i className="bi bi-shield-check"></i>
@@ -66,34 +43,51 @@ function PolicyLedger() {
 
                             <div>
                                 <h3>
-                                    {policy.name}
+                                    {policy.policyName}
                                 </h3>
 
                                 <p>
-                                    Policy No. {policy.number}
+                                    Policy No. {policy.policyNumber}
                                 </p>
                             </div>
                         </div>
 
+                        {/* Policy details */}
                         <div className="pv-policy-details">
+
                             <div>
-                                <span>Premium</span>
+                                <span>
+                                    Premium
+                                </span>
+
                                 <strong>
-                                    {policy.premium}
-                                    <small>/{policy.frequency}</small>
+                                    ₹{policy.premiumAmount.toLocaleString("en-IN")}
+                                    <small>
+                                        /{policy.premiumFrequency.toLowerCase()}
+                                    </small>
                                 </strong>
                             </div>
 
                             <div>
-                                <span>Next payment</span>
+                                <span>
+                                    Next payment
+                                </span>
+
                                 <strong>
-                                    {policy.nextPayment}
+                                    {new Date(
+                                        policy.nextPaymentDate
+                                    ).toLocaleDateString("en-IN", {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric"
+                                    })}
                                 </strong>
                             </div>
 
                             <span className="pv-policy-status">
                                 {policy.status}
                             </span>
+
                         </div>
                     </div>
                 ))}
@@ -102,4 +96,4 @@ function PolicyLedger() {
     );
 }
 
-export default PolicyLedger;
+export default PolicyLedger;    
