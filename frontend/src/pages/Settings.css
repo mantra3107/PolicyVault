@@ -1,0 +1,502 @@
+/* =========================================
+   Settings Page
+========================================= */
+
+.pv-settings-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   Header
+========================================= */
+
+.pv-settings-header {
+    margin-bottom: 2rem;
+}
+
+.pv-settings-header .page-heading {
+    margin: 0.35rem 0 0;
+}
+
+.pv-settings-subtitle {
+    margin: 0.75rem 0 0;
+
+    color: var(--pv-text-muted);
+
+    font-size: 1rem;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   Form
+========================================= */
+
+.pv-settings-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1.5rem;
+}
+
+
+/* =========================================
+   Settings Section
+========================================= */
+
+.pv-settings-section {
+    overflow: hidden;
+}
+
+.pv-settings-section-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 1.5rem;
+
+    padding: 1.5rem 1.75rem;
+
+    border-bottom: 1px solid var(--pv-border);
+}
+
+.pv-settings-section-header h2 {
+    margin: 0.4rem 0 0;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 1.55rem;
+
+    font-weight: 400;
+}
+
+.pv-settings-section-header p {
+    max-width: 650px;
+
+    margin: 0.5rem 0 0;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.78rem;
+
+    line-height: 1.5;
+}
+
+.pv-settings-section-icon {
+    width: 2.7rem;
+
+    height: 2.7rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+
+    font-size: 1rem;
+}
+
+
+/* =========================================
+   Fields
+========================================= */
+
+.pv-settings-fields {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 1.25rem;
+
+    padding: 1.5rem 1.75rem;
+}
+
+.pv-settings-field {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.5rem;
+}
+
+.pv-settings-field label {
+    color: var(--pv-text);
+
+    font-size: 0.75rem;
+
+    font-weight: 700;
+}
+
+.pv-settings-field input,
+.pv-settings-field select {
+    width: 100%;
+
+    min-height: 2.9rem;
+
+    padding: 0.7rem 0.85rem;
+
+    border: 1px solid var(--pv-border);
+
+    border-radius: var(--pv-radius);
+
+    outline: none;
+
+    background-color: var(--pv-surface);
+
+    color: var(--pv-text);
+
+    font-size: 0.82rem;
+
+    transition: 0.2s ease;
+}
+
+.pv-settings-field input::placeholder {
+    color: #9aa39e;
+}
+
+.pv-settings-field input:focus,
+.pv-settings-field select:focus {
+    border-color: var(--pv-green);
+
+    box-shadow: 0 0 0 2px rgba(18, 78, 59, 0.08);
+}
+
+
+/* =========================================
+   Notification Options
+========================================= */
+
+.pv-settings-options {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.pv-settings-option {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1.25rem 1.75rem;
+
+    border-bottom: 1px solid var(--pv-border);
+}
+
+.pv-settings-option:last-child {
+    border-bottom: 0;
+}
+
+.pv-settings-option-icon {
+    width: 2.5rem;
+
+    height: 2.5rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+}
+
+.pv-settings-option-content {
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+.pv-settings-option-content strong {
+    font-size: 0.82rem;
+}
+
+.pv-settings-option-content span {
+    margin-top: 0.25rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.72rem;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   Toggle
+========================================= */
+
+.pv-toggle {
+    position: relative;
+
+    width: 3rem;
+
+    height: 1.65rem;
+
+    flex-shrink: 0;
+
+    cursor: pointer;
+}
+
+.pv-toggle input {
+    position: absolute;
+
+    opacity: 0;
+
+    width: 0;
+
+    height: 0;
+}
+
+.pv-toggle-slider {
+    position: absolute;
+
+    inset: 0;
+
+    background-color: #d8d8d2;
+
+    border-radius: 999px;
+
+    transition: 0.2s ease;
+}
+
+.pv-toggle-slider::before {
+    content: "";
+
+    position: absolute;
+
+    width: 1.15rem;
+
+    height: 1.15rem;
+
+    left: 0.25rem;
+
+    top: 0.25rem;
+
+    background-color: white;
+
+    border-radius: 50%;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+
+    transition: 0.2s ease;
+}
+
+.pv-toggle input:checked + .pv-toggle-slider {
+    background-color: var(--pv-green);
+}
+
+.pv-toggle input:checked + .pv-toggle-slider::before {
+    transform: translateX(1.35rem);
+}
+
+
+/* =========================================
+   Data Card
+========================================= */
+
+.pv-settings-data-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1.5rem 1.75rem;
+}
+
+.pv-settings-data-icon {
+    width: 2.7rem;
+
+    height: 2.7rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+}
+
+.pv-settings-data-card > div:nth-child(2) {
+    flex: 1;
+}
+
+.pv-settings-data-card strong {
+    font-size: 0.82rem;
+}
+
+.pv-settings-data-card p {
+    margin: 0.3rem 0 0;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.72rem;
+
+    line-height: 1.5;
+}
+
+.pv-settings-data-status {
+    padding: 0.45rem 0.65rem;
+
+    background-color: #f3e6c9;
+
+    color: var(--pv-warning);
+
+    font-size: 0.62rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   Save Bar
+========================================= */
+
+.pv-settings-save-bar {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding-bottom: 1rem;
+}
+
+.pv-settings-saved {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.45rem;
+
+    color: var(--pv-success);
+
+    font-size: 0.78rem;
+
+    font-weight: 600;
+}
+
+.pv-settings-save-bar .pv-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.55rem;
+}
+
+
+/* =========================================
+   Tablet
+========================================= */
+
+@media (max-width: 991.98px) {
+
+    .pv-settings-fields {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================
+   Mobile
+========================================= */
+
+@media (max-width: 767.98px) {
+
+    .pv-settings-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .pv-settings-header .page-heading {
+        font-size: 2.5rem;
+    }
+
+    .pv-settings-form {
+        gap: 1.25rem;
+    }
+
+    .pv-settings-section-header {
+        padding: 1.25rem;
+
+        gap: 1rem;
+    }
+
+    .pv-settings-section-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .pv-settings-fields {
+        padding: 1.25rem;
+    }
+
+    .pv-settings-option {
+        padding: 1.1rem 1.25rem;
+    }
+
+    .pv-settings-option-content span {
+        font-size: 0.68rem;
+    }
+
+    .pv-settings-data-card {
+        align-items: flex-start;
+
+        padding: 1.25rem;
+    }
+
+    .pv-settings-data-status {
+        display: none;
+    }
+
+    .pv-settings-save-bar {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .pv-settings-save-bar .pv-btn {
+        width: 100%;
+
+        justify-content: center;
+    }
+}

@@ -1,0 +1,582 @@
+/* =========================================
+   Family Page
+========================================= */
+
+.pv-family-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   Header
+========================================= */
+
+.pv-family-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 2rem;
+
+    margin-bottom: 2rem;
+}
+
+.pv-family-header .page-heading {
+    margin: 0.35rem 0 0;
+}
+
+.pv-family-subtitle {
+    margin: 0.75rem 0 0;
+
+    color: var(--pv-text-muted);
+
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.pv-family-header .pv-btn {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 0.6rem;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   Summary
+========================================= */
+
+.pv-family-summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 1rem;
+
+    margin-bottom: 2rem;
+}
+
+.pv-family-summary-card {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 1rem;
+
+    padding: 1.5rem;
+}
+
+.pv-family-summary-icon {
+    width: 2.6rem;
+    height: 2.6rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+
+    font-size: 1.05rem;
+}
+
+.pv-family-summary-card > div:last-child {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+.pv-family-summary-card span {
+    color: var(--pv-text-muted);
+
+    font-size: 0.82rem;
+}
+
+.pv-family-summary-card strong {
+    margin-top: 0.35rem;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 1.65rem;
+
+    font-weight: 400;
+
+    line-height: 1.2;
+}
+
+.pv-family-summary-card small {
+    margin-top: 0.35rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.72rem;
+}
+
+
+/* =========================================
+   Main Section
+========================================= */
+
+.pv-family-section {
+    overflow: hidden;
+
+    margin-bottom: 1.5rem;
+}
+
+.pv-family-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding: 1.5rem 1.75rem;
+
+    border-bottom: 1px solid var(--pv-border);
+}
+
+.pv-family-section-header h2 {
+    margin: 0.4rem 0 0;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 1.6rem;
+
+    font-weight: 400;
+}
+
+.pv-family-count {
+    padding: 0.45rem 0.65rem;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+
+    font-size: 0.65rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   Family Member Grid
+========================================= */
+
+.pv-family-members {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 1px;
+
+    background-color: var(--pv-border);
+}
+
+.pv-family-member {
+    padding: 1.5rem;
+
+    background-color: var(--pv-surface);
+}
+
+.pv-family-member-top {
+    display: flex;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.pv-family-avatar {
+    width: 3.4rem;
+    height: 3.4rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.05em;
+}
+
+.pv-family-avatar-1 {
+    background-color: #f3e6c9;
+    color: var(--pv-warning);
+}
+
+.pv-family-avatar-2 {
+    background-color: #e1e8e2;
+    color: var(--pv-success);
+}
+
+.pv-family-avatar-3 {
+    background-color: #e7e4dd;
+    color: var(--pv-text-muted);
+}
+
+.pv-family-member-info {
+    min-width: 0;
+}
+
+.pv-family-member-info h3 {
+    margin: 0;
+
+    font-size: 1rem;
+}
+
+.pv-family-member-info p {
+    margin: 0.3rem 0 0;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.78rem;
+}
+
+
+/* =========================================
+   Member Stats
+========================================= */
+
+.pv-family-member-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    margin-top: 1.5rem;
+
+    border-top: 1px solid var(--pv-border);
+    border-bottom: 1px solid var(--pv-border);
+}
+
+.pv-family-member-stats > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.3rem;
+
+    padding: 0.9rem 0.75rem;
+}
+
+.pv-family-member-stats > div + div {
+    border-left: 1px solid var(--pv-border);
+}
+
+.pv-family-member-stats span {
+    color: var(--pv-text-muted);
+
+    font-size: 0.68rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+}
+
+.pv-family-member-stats strong {
+    font-size: 0.9rem;
+}
+
+
+/* =========================================
+   Connected Policies
+========================================= */
+
+.pv-family-policy-list {
+    margin-top: 1.25rem;
+}
+
+.pv-family-policy-label {
+    margin-bottom: 0.6rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.68rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+
+    text-transform: uppercase;
+}
+
+.pv-family-policy {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+
+    gap: 0.7rem;
+
+    padding: 0.7rem 0;
+
+    border: 0;
+
+    border-top: 1px solid var(--pv-border);
+
+    background: transparent;
+
+    color: var(--pv-text);
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.pv-family-policy:hover {
+    padding-left: 0.3rem;
+}
+
+.pv-family-policy-icon {
+    width: 2rem;
+    height: 2rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+
+    font-size: 0.75rem;
+}
+
+.pv-family-policy > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    flex: 1;
+}
+
+.pv-family-policy strong {
+    overflow: hidden;
+
+    font-size: 0.75rem;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+.pv-family-policy span {
+    margin-top: 0.15rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.65rem;
+}
+
+.pv-family-policy-coverage {
+    color: var(--pv-text-muted);
+
+    font-size: 0.7rem;
+
+    white-space: nowrap;
+}
+
+.pv-family-policy > i {
+    color: var(--pv-text-muted);
+
+    font-size: 0.7rem;
+}
+
+
+/* =========================================
+   Empty State
+========================================= */
+
+.pv-family-empty {
+    grid-column: 1 / -1;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 4rem 2rem;
+
+    background-color: var(--pv-surface);
+
+    text-align: center;
+}
+
+.pv-family-empty > i {
+    color: var(--pv-green);
+
+    font-size: 2rem;
+}
+
+.pv-family-empty h3 {
+    margin: 1rem 0 0;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 1.4rem;
+
+    font-weight: 400;
+}
+
+.pv-family-empty p {
+    margin: 0.5rem 0 1.25rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.8rem;
+}
+
+
+/* =========================================
+   Information Note
+========================================= */
+
+.pv-family-note {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 0.9rem;
+
+    padding: 1.25rem 1.5rem;
+
+    border: 1px solid var(--pv-border);
+
+    background-color: #faf7ef;
+}
+
+.pv-family-note-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+}
+
+.pv-family-note strong {
+    font-size: 0.78rem;
+}
+
+.pv-family-note p {
+    margin: 0.25rem 0 0;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.72rem;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   Tablet
+========================================= */
+
+@media (max-width: 1199.98px) {
+
+    .pv-family-summary {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .pv-family-members {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================
+   Mobile
+========================================= */
+
+@media (max-width: 767.98px) {
+
+    .pv-family-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        margin-bottom: 1.5rem;
+    }
+
+    .pv-family-header .page-heading {
+        font-size: 2.5rem;
+    }
+
+    .pv-family-summary {
+        grid-template-columns: 1fr;
+
+        gap: 0.75rem;
+
+        margin-bottom: 1.5rem;
+    }
+
+    .pv-family-summary-card {
+        padding: 1.25rem;
+    }
+
+    .pv-family-section {
+        margin-bottom: 1.25rem;
+    }
+
+    .pv-family-section-header {
+        align-items: flex-start;
+
+        padding: 1.25rem;
+    }
+
+    .pv-family-section-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .pv-family-member {
+        padding: 1.25rem;
+    }
+
+    .pv-family-policy-coverage {
+        display: none;
+    }
+
+    .pv-family-note {
+        padding: 1rem;
+    }
+}
