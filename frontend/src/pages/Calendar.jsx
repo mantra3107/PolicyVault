@@ -1,17 +1,496 @@
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router";
+import { getPolicies } from "../data/policyStore";
+import "./Calendar.css";
+
 function Calendar() {
+    const navigate = useNavigate();
+
+    const policies = getPolicies();
+
+    const today = new Date();
+
+    const [currentDate, setCurrentDate] = useState(
+        new Date(today.getFullYear(), today.getMonth(), 1)
+    );
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    const monthName = currentDate.toLocaleDateString("en-IN", {
+        month: "long",
+        year: "numeric"
+    });
+
+    /*
+     * Calendar starts on Monday.
+     *
+     * JavaScript:
+     * Sunday = 0
+     * Monday = 1
+     * ...
+     */
+
+    const firstDay = new Date(year, month, 1).getDay();
+
+    const mondayOffset =
+        firstDay === 0 ? 6 : firstDay - 1;
+
+    const daysInMonth = new Date(
+        year,
+        month + 1,
+        0
+    ).getDate();
+
+    const previousMonthDays = new Date(
+        year,
+        month,
+        0
+    ).getDate();
+
+    const calendarDays = [];
+
+    /*
+     * Previous month's trailing days
+     */
+
+    for (let i = mondayOffset - 1; i >= 0; i--) {
+        calendarDays.push({
+            day: previousMonthDays - i,
+            currentMonth: false,
+            date: new Date(
+                year,
+                month - 1,
+                previousMonthDays - i
+            )
+        });
+    }
+
+    /*
+     * Current month's days
+     */
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        calendarDays.push({
+            day,
+            currentMonth: true,
+            date: new Date(year, month, day)
+        });
+    }
+
+    /*
+     * Next month's leading days
+     */
+
+    let nextDay = 1;
+
+    while (calendarDays.length < 42) {
+        calendarDays.push({
+            day: nextDay,
+            currentMonth: false,
+            date: new Date(year, month + 1, nextDay)
+        });
+
+        nextDay++;
+    }
+
+    const isSameDay = (date1, date2) => {
+        return (
+            date1.getFullYear() === date2.getFullYear() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getDate() === date2.getDate()
+        );
+    };
+
+    const getEventsForDate = (date) => {
+        const events = [];
+
+        policies.forEach((policy) => {
+
+            const paymentDate = new Date(
+                policy.nextPaymentDate
+            );
+
+            if (isSameDay(paymentDate, date)) {
+                events.push({
+                    type: "payment",
+                    title: policy.policyName,
+                    policyId: policy.id,
+                    amount: policy.premiumAmount
+                });
+            }
+
+            const maturityDate = new Date(
+                policy.maturityDate
+            );
+
+            if (isSameDay(maturityDate, date)) {
+                events.push({
+                    type: "maturity",
+                    title: `${policy.policyName} matures`,
+                    policyId: policy.id
+                });
+            }
+        });
+
+        return events;
+    };
+
+    const goToPreviousMonth = () => {
+        setCurrentDate(
+            new Date(year, month - 1, 1)
+        );
+    };
+
+    const goToNextMonth = () => {
+        setCurrentDate(
+            new Date(year, month + 1, 1)
+        );
+    };
+
+    const goToToday = () => {
+        setCurrentDate(
+            new Date(
+                today.getFullYear(),
+                today.getMonth(),
+                1
+            )
+        );
+    };
+
+    /*
+     * Upcoming events
+     */
+
+    const upcomingEvents = useMemo(() => {
+
+        const events = [];
+
+        policies.forEach((policy) => {
+
+            const paymentDate = new Date(
+                policy.nextPaymentDate
+            );
+
+            if (paymentDate >= today) {
+                events.push({
+                    type: "payment",
+                    date: paymentDate,
+                    title: policy.policyName,
+                    subtitle: "Premium payment",
+                    amount: policy.premiumAmount,
+                    policyId: policy.id
+                });
+            }
+
+            const maturityDate = new Date(
+                policy.maturityDate
+            );
+
+            if (maturityDate >= today) {
+                events.push({
+                    type: "maturity",
+                    date: maturityDate,
+                    title: policy.policyName,
+                    subtitle: "Policy maturity",
+                    policyId: policy.id
+                });
+            }
+        });
+
+        return events
+            .sort((a, b) => a.date - b.date)
+            .slice(0, 6);
+
+    }, [policies]);
+
+    const formatDate = (date) => {
+        return date.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+    };
+
+    const formatCurrency = (amount) => {
+        return `₹${Number(amount).toLocaleString("en-IN")}`;
+    };
+
     return (
-        <div>
-            <div className="section-label mb-3">
-                Your schedule
-            </div>
+        <div className="pv-calendar-page">
 
-            <h1 className="page-heading">
-                Calendar
-            </h1>
+            {/* Page Header */}
 
-            <p className="mt-3">
-                Your premium payments and policy maturity dates will appear here.
-            </p>
+            <section className="pv-calendar-header">
+
+                <div>
+                    <div className="section-label">
+                        Your schedule
+                    </div>
+
+                    <h1 className="page-heading">
+                        Calendar
+                    </h1>
+
+                    <p className="pv-calendar-subtitle">
+                        Keep your premium payments and policy milestones in view.
+                    </p>
+                </div>
+
+                <button
+                    className="pv-btn"
+                    onClick={goToToday}
+                >
+                    <i className="bi bi-calendar2-check"></i>
+                    <span>Today</span>
+                </button>
+
+            </section>
+
+
+            {/* Calendar + Events */}
+
+            <section className="pv-calendar-layout">
+
+                {/* Calendar */}
+
+                <div className="pv-calendar-card surface">
+
+                    <div className="pv-calendar-toolbar">
+
+                        <div>
+                            <h2>
+                                {monthName}
+                            </h2>
+                        </div>
+
+                        <div className="pv-calendar-navigation">
+
+                            <button
+                                type="button"
+                                onClick={goToPreviousMonth}
+                                aria-label="Previous month"
+                            >
+                                <i className="bi bi-chevron-left"></i>
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={goToNextMonth}
+                                aria-label="Next month"
+                            >
+                                <i className="bi bi-chevron-right"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    {/* Weekdays */}
+
+                    <div className="pv-calendar-weekdays">
+
+                        {[
+                            "Monday",
+                            "Tuesday",
+                            "Wednesday",
+                            "Thursday",
+                            "Friday",
+                            "Saturday",
+                            "Sunday"
+                        ].map((day) => (
+                            <div key={day}>
+                                {day.slice(0, 3)}
+                            </div>
+                        ))}
+
+                    </div>
+
+
+                    {/* Days */}
+
+                    <div className="pv-calendar-grid">
+
+                        {calendarDays.map((calendarDay, index) => {
+
+                            const events = getEventsForDate(
+                                calendarDay.date
+                            );
+
+                            const isToday = isSameDay(
+                                calendarDay.date,
+                                today
+                            );
+
+                            return (
+                                <div
+                                    className={`pv-calendar-day ${
+                                        !calendarDay.currentMonth
+                                            ? "pv-calendar-day-muted"
+                                            : ""
+                                    } ${
+                                        isToday
+                                            ? "pv-calendar-day-today"
+                                            : ""
+                                    }`}
+                                    key={`${calendarDay.date.toISOString()}-${index}`}
+                                >
+
+                                    <span className="pv-calendar-date">
+                                        {calendarDay.day}
+                                    </span>
+
+                                    <div className="pv-calendar-events">
+
+                                        {events.slice(0, 2).map(
+                                            (event, eventIndex) => (
+
+                                                <button
+                                                    type="button"
+                                                    key={`${event.policyId}-${event.type}-${eventIndex}`}
+                                                    className={`pv-calendar-event ${
+                                                        event.type === "payment"
+                                                            ? "pv-calendar-event-payment"
+                                                            : "pv-calendar-event-maturity"
+                                                    }`}
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/policies/${event.policyId}`
+                                                        )
+                                                    }
+                                                >
+                                                    <span>
+                                                        {event.type === "payment"
+                                                            ? "Payment"
+                                                            : "Maturity"}
+                                                    </span>
+                                                </button>
+
+                                            )
+                                        )}
+
+                                    </div>
+
+                                </div>
+                            );
+                        })}
+
+                    </div>
+
+
+                    {/* Legend */}
+
+                    <div className="pv-calendar-legend">
+
+                        <div>
+                            <span className="pv-legend-dot pv-legend-payment"></span>
+                            Premium payment
+                        </div>
+
+                        <div>
+                            <span className="pv-legend-dot pv-legend-maturity"></span>
+                            Policy maturity
+                        </div>
+
+                        <div>
+                            <span className="pv-legend-dot pv-legend-today"></span>
+                            Today
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {/* Upcoming Events */}
+
+                <aside className="pv-calendar-events-panel surface">
+
+                    <div className="pv-events-panel-header">
+
+                        <div className="section-label">
+                            Coming up
+                        </div>
+
+                        <h2>
+                            Upcoming events
+                        </h2>
+
+                    </div>
+
+
+                    <div className="pv-upcoming-events">
+
+                        {upcomingEvents.length === 0 ? (
+
+                            <div className="pv-calendar-empty">
+                                <i className="bi bi-calendar-x"></i>
+
+                                <p>
+                                    No upcoming events.
+                                </p>
+                            </div>
+
+                        ) : (
+
+                            upcomingEvents.map((event, index) => (
+
+                                <button
+                                    type="button"
+                                    className="pv-upcoming-event"
+                                    key={`${event.policyId}-${event.type}-${index}`}
+                                    onClick={() =>
+                                        navigate(
+                                            `/policies/${event.policyId}`
+                                        )
+                                    }
+                                >
+
+                                    <div className="pv-upcoming-event-icon">
+                                        <i
+                                            className={
+                                                event.type === "payment"
+                                                    ? "bi bi-cash-stack"
+                                                    : "bi bi-flag"
+                                            }
+                                        ></i>
+                                    </div>
+
+                                    <div className="pv-upcoming-event-content">
+
+                                        <strong>
+                                            {event.title}
+                                        </strong>
+
+                                        <span>
+                                            {event.subtitle}
+                                        </span>
+
+                                        <small>
+                                            {formatDate(event.date)}
+
+                                            {event.amount
+                                                ? ` · ${formatCurrency(event.amount)}`
+                                                : ""}
+                                        </small>
+
+                                    </div>
+
+                                    <i className="bi bi-arrow-right"></i>
+
+                                </button>
+
+                            ))
+
+                        )}
+
+                    </div>
+
+                </aside>
+
+            </section>
+
         </div>
     );
 }

@@ -1,0 +1,547 @@
+/* =========================================
+   Calendar Page
+========================================= */
+
+.pv-calendar-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   Header
+========================================= */
+
+.pv-calendar-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 2rem;
+
+    margin-bottom: 2rem;
+}
+
+.pv-calendar-header .page-heading {
+    margin: 0.35rem 0 0;
+}
+
+.pv-calendar-subtitle {
+    margin: 0.75rem 0 0;
+
+    color: var(--pv-text-muted);
+
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.pv-calendar-header .pv-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   Main Layout
+========================================= */
+
+.pv-calendar-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.7fr)
+        minmax(280px, 0.8fr);
+
+    gap: 1.5rem;
+
+    align-items: start;
+}
+
+
+/* =========================================
+   Calendar Card
+========================================= */
+
+.pv-calendar-card {
+    overflow: hidden;
+}
+
+.pv-calendar-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 1.5rem 1.75rem;
+
+    border-bottom: 1px solid var(--pv-border);
+}
+
+.pv-calendar-toolbar h2 {
+    margin: 0;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 1.65rem;
+
+    font-weight: 400;
+}
+
+.pv-calendar-navigation {
+    display: flex;
+
+    gap: 0.5rem;
+}
+
+.pv-calendar-navigation button {
+    width: 2.3rem;
+    height: 2.3rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--pv-border);
+
+    background: transparent;
+
+    color: var(--pv-text);
+
+    cursor: pointer;
+
+    border-radius: var(--pv-radius);
+
+    transition: 0.2s ease;
+}
+
+.pv-calendar-navigation button:hover {
+    border-color: var(--pv-green);
+
+    color: var(--pv-green);
+}
+
+
+/* =========================================
+   Weekdays
+========================================= */
+
+.pv-calendar-weekdays {
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, minmax(0, 1fr));
+
+    border-bottom: 1px solid var(--pv-border);
+
+    background-color: #faf7ef;
+}
+
+.pv-calendar-weekdays div {
+    padding: 0.8rem 0.5rem;
+
+    text-align: center;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.68rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   Calendar Grid
+========================================= */
+
+.pv-calendar-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, minmax(0, 1fr));
+}
+
+.pv-calendar-day {
+    position: relative;
+
+    min-height: 6.5rem;
+
+    padding: 0.65rem;
+
+    border-right: 1px solid var(--pv-border);
+    border-bottom: 1px solid var(--pv-border);
+
+    background-color: var(--pv-surface);
+}
+
+.pv-calendar-day:nth-child(7n) {
+    border-right: 0;
+}
+
+.pv-calendar-day-muted {
+    background-color: #faf7ef;
+
+    color: #a2aaa5;
+}
+
+.pv-calendar-date {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 1.7rem;
+    height: 1.7rem;
+
+    font-size: 0.8rem;
+}
+
+.pv-calendar-day-today .pv-calendar-date {
+    background-color: var(--pv-green);
+
+    color: #fff;
+
+    border-radius: 50%;
+
+    font-weight: 700;
+}
+
+.pv-calendar-events {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.3rem;
+
+    margin-top: 0.4rem;
+}
+
+.pv-calendar-event {
+    width: 100%;
+
+    overflow: hidden;
+
+    border: 0;
+
+    padding: 0.3rem 0.4rem;
+
+    border-radius: 2px;
+
+    text-align: left;
+
+    font-size: 0.62rem;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+}
+
+.pv-calendar-event-payment {
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+}
+
+.pv-calendar-event-maturity {
+    background-color: #f3e6c9;
+
+    color: var(--pv-warning);
+}
+
+.pv-calendar-event:hover {
+    filter: brightness(0.96);
+}
+
+
+/* =========================================
+   Legend
+========================================= */
+
+.pv-calendar-legend {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1.25rem;
+
+    padding: 1rem 1.5rem;
+
+    border-top: 1px solid var(--pv-border);
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.72rem;
+}
+
+.pv-calendar-legend > div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.45rem;
+}
+
+.pv-legend-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+
+    display: inline-block;
+
+    border-radius: 50%;
+}
+
+.pv-legend-payment {
+    background-color: var(--pv-green);
+}
+
+.pv-legend-maturity {
+    background-color: var(--pv-warning);
+}
+
+.pv-legend-today {
+    background-color: var(--pv-text);
+}
+
+
+/* =========================================
+   Upcoming Events Panel
+========================================= */
+
+.pv-calendar-events-panel {
+    overflow: hidden;
+}
+
+.pv-events-panel-header {
+    padding: 1.5rem 1.5rem;
+
+    border-bottom: 1px solid var(--pv-border);
+}
+
+.pv-events-panel-header h2 {
+    margin: 0.4rem 0 0;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 1.55rem;
+
+    font-weight: 400;
+}
+
+.pv-upcoming-events {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.pv-upcoming-event {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.8rem;
+
+    width: 100%;
+
+    padding: 1rem 1.25rem;
+
+    border: 0;
+
+    border-bottom: 1px solid var(--pv-border);
+
+    background: transparent;
+
+    color: var(--pv-text);
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.pv-upcoming-event:last-child {
+    border-bottom: 0;
+}
+
+.pv-upcoming-event:hover {
+    background-color: #faf7ef;
+}
+
+.pv-upcoming-event-icon {
+    width: 2.35rem;
+    height: 2.35rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+}
+
+.pv-upcoming-event-content {
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+.pv-upcoming-event-content strong {
+    overflow: hidden;
+
+    font-size: 0.8rem;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+.pv-upcoming-event-content span {
+    margin-top: 0.15rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.7rem;
+}
+
+.pv-upcoming-event-content small {
+    margin-top: 0.3rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.67rem;
+}
+
+.pv-upcoming-event > i:last-child {
+    color: var(--pv-text-muted);
+
+    font-size: 0.75rem;
+}
+
+
+/* =========================================
+   Empty State
+========================================= */
+
+.pv-calendar-empty {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 3rem 1.5rem;
+
+    color: var(--pv-text-muted);
+
+    text-align: center;
+}
+
+.pv-calendar-empty i {
+    font-size: 1.8rem;
+}
+
+.pv-calendar-empty p {
+    margin: 0.75rem 0 0;
+
+    font-size: 0.8rem;
+}
+
+
+/* =========================================
+   Tablet
+========================================= */
+
+@media (max-width: 1199.98px) {
+
+    .pv-calendar-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================
+   Mobile
+========================================= */
+
+@media (max-width: 767.98px) {
+
+    .pv-calendar-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        margin-bottom: 1.5rem;
+    }
+
+    .pv-calendar-header .page-heading {
+        font-size: 2.5rem;
+    }
+
+    .pv-calendar-toolbar {
+        padding: 1.25rem;
+    }
+
+    .pv-calendar-toolbar h2 {
+        font-size: 1.35rem;
+    }
+
+    .pv-calendar-day {
+        min-height: 4.8rem;
+
+        padding: 0.4rem;
+    }
+
+    .pv-calendar-weekdays div {
+        padding: 0.65rem 0.2rem;
+
+        font-size: 0.58rem;
+    }
+
+    .pv-calendar-date {
+        width: 1.5rem;
+        height: 1.5rem;
+
+        font-size: 0.7rem;
+    }
+
+    .pv-calendar-event {
+        padding: 0.22rem;
+
+        font-size: 0.5rem;
+
+        text-align: center;
+    }
+
+    .pv-calendar-legend {
+        flex-wrap: wrap;
+
+        padding: 0.9rem 1rem;
+
+        gap: 0.7rem 1rem;
+    }
+
+    .pv-events-panel-header {
+        padding: 1.25rem;
+    }
+
+    .pv-upcoming-event {
+        padding: 1rem;
+    }
+}
