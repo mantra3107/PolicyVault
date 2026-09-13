@@ -1,43 +1,125 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { getPolicies } from "../data/policyStore";
+import { getPolicies } from "../services/api";
 import "./Policies.css";
 
 function Policies() {
+
     const navigate = useNavigate();
 
-    const [policies] = useState(() => getPolicies());
 
-    const [searchTerm, setSearchTerm] = useState("");
-    const [statusFilter, setStatusFilter] = useState("All");
+    /* =========================================
+       State
+    ========================================= */
 
-    const filteredPolicies = policies.filter((policy) => {
-        const matchesSearch =
-    (policy.policyName || "")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-    (policy.provider || "")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-    (policy.policyNumber || "")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+    const [policies, setPolicies] = useState([]);
 
-        const matchesStatus =
-            statusFilter === "All" ||
-            policy.status === statusFilter;
+    const [searchTerm, setSearchTerm] =
+        useState("");
 
-        return matchesSearch && matchesStatus;
-    });
+    const [statusFilter, setStatusFilter] =
+        useState("All");
+
+    const [loading, setLoading] =
+        useState(true);
+
+    const [error, setError] =
+        useState("");
+
+
+    /* =========================================
+       Load Policies
+    ========================================= */
+
+    useEffect(() => {
+
+        async function loadPolicies() {
+
+            try {
+
+                setLoading(true);
+
+                setError("");
+
+                const data =
+                    await getPolicies();
+
+                setPolicies(data);
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to load policies:",
+                    error
+                );
+
+                setError(
+                    "Unable to load policies. Please make sure the backend is running."
+                );
+
+            } finally {
+
+                setLoading(false);
+
+            }
+
+        }
+
+        loadPolicies();
+
+    }, []);
+
+
+    /* =========================================
+       Search + Filter
+    ========================================= */
+
+    const filteredPolicies =
+        policies.filter((policy) => {
+
+            const search =
+                searchTerm.toLowerCase();
+
+            const matchesSearch =
+                (policy.policyName || "")
+                    .toLowerCase()
+                    .includes(search) ||
+
+                (policy.provider || "")
+                    .toLowerCase()
+                    .includes(search) ||
+
+                (policy.policyNumber || "")
+                    .toLowerCase()
+                    .includes(search);
+
+
+            const matchesStatus =
+                statusFilter === "All" ||
+                policy.status === statusFilter;
+
+
+            return (
+                matchesSearch &&
+                matchesStatus
+            );
+
+        });
+
 
     return (
+
         <div className="pv-policies-page">
 
-            {/* Page Header */}
+
+            {/* =====================================
+                Page Header
+            ===================================== */}
 
             <section className="pv-policies-header">
 
                 <div>
+
                     <div className="section-label">
                         Your policies
                     </div>
@@ -50,20 +132,31 @@ function Policies() {
                         Keep every policy organized, accessible,
                         and easy to understand.
                     </p>
+
                 </div>
+
 
                 <button
                     className="pv-btn"
-                    onClick={() => navigate("/policies/add")}
+                    onClick={() =>
+                        navigate("/policies/add")
+                    }
                 >
+
                     <i className="bi bi-plus-lg"></i>
-                    <span>Add a policy</span>
+
+                    <span>
+                        Add a policy
+                    </span>
+
                 </button>
 
             </section>
 
 
-            {/* Search and Filters */}
+            {/* =====================================
+                Search and Filters
+            ===================================== */}
 
             <section className="pv-policy-controls surface">
 
@@ -76,7 +169,9 @@ function Policies() {
                         placeholder="Search by policy name, provider or number..."
                         value={searchTerm}
                         onChange={(event) =>
-                            setSearchTerm(event.target.value)
+                            setSearchTerm(
+                                event.target.value
+                            )
                         }
                     />
 
@@ -93,9 +188,12 @@ function Policies() {
                         id="status-filter"
                         value={statusFilter}
                         onChange={(event) =>
-                            setStatusFilter(event.target.value)
+                            setStatusFilter(
+                                event.target.value
+                            )
                         }
                     >
+
                         <option value="All">
                             All
                         </option>
@@ -115,6 +213,7 @@ function Policies() {
                         <option value="Lapsed">
                             Lapsed
                         </option>
+
                     </select>
 
                 </div>
@@ -122,142 +221,245 @@ function Policies() {
             </section>
 
 
-            {/* Results */}
+            {/* =====================================
+                Results
+            ===================================== */}
 
             <div className="pv-policy-results">
 
                 <div className="pv-policy-results-header">
 
                     <span>
-                        {filteredPolicies.length}{" "}
-                        {filteredPolicies.length === 1
-                            ? "policy"
-                            : "policies"}
+
+                        {loading
+                            ? "Loading..."
+                            : `${filteredPolicies.length} ${
+                                filteredPolicies.length === 1
+                                    ? "policy"
+                                    : "policies"
+                            }`
+                        }
+
                     </span>
 
                 </div>
 
 
-                {/* Policy Cards */}
+                {/* =================================
+                    Loading
+                ================================= */}
 
-                <div className="pv-policy-cards">
+                {loading && (
 
-                    {filteredPolicies.map((policy) => (
+                    <div className="pv-policy-empty surface">
 
-                        <article
-                            className="pv-policy-card surface"
-                            key={policy.id}
+                        <i className="bi bi-arrow-repeat"></i>
+
+                        <h2>
+                            Loading policies
+                        </h2>
+
+                        <p>
+                            Fetching your policies from the PolicyVault server.
+                        </p>
+
+                    </div>
+
+                )}
+
+
+                {/* =================================
+                    Error
+                ================================= */}
+
+                {!loading && error && (
+
+                    <div className="pv-policy-empty surface">
+
+                        <i className="bi bi-exclamation-circle"></i>
+
+                        <h2>
+                            Unable to load policies
+                        </h2>
+
+                        <p>
+                            {error}
+                        </p>
+
+                        <button
+                            type="button"
+                            className="pv-btn"
+                            onClick={() =>
+                                window.location.reload()
+                            }
                         >
+                            Try again
+                        </button>
 
-                            <div className="pv-policy-card-top">
+                    </div>
 
-                                <div className="pv-policy-card-title">
-
-                                    <div className="pv-policy-icon">
-                                        <i className="bi bi-shield-check"></i>
-                                    </div>
-
-                                    <div>
-
-                                        <h2>
-                                            {policy.policyName}
-                                        </h2>
-
-                                        <p>
-                                            {policy.provider}
-                                            {" • "}
-                                            Policy No.{" "}
-                                            {policy.policyNumber}
-                                        </p>
-
-                                    </div>
-
-                                </div>
+                )}
 
 
-                                <span className="pv-policy-status">
-                                    {policy.status}
-                                </span>
+                {/* =================================
+                    Policy Cards
+                ================================= */}
 
-                            </div>
+                {!loading &&
+                    !error &&
+                    filteredPolicies.length > 0 && (
 
+                        <div className="pv-policy-cards">
 
-                            <div className="pv-policy-card-details">
+                            {filteredPolicies.map(
+                                (policy) => (
 
-                                <div>
-                                    <span>
-                                        Premium
-                                    </span>
+                                    <article
+                                        className="pv-policy-card surface"
+                                        key={policy.id}
+                                    >
 
-                                    <strong>
-                                        ₹
-                                        {policy.premiumAmount.toLocaleString(
-                                            "en-IN"
-                                        )}
-                                    </strong>
+                                        <div className="pv-policy-card-top">
 
-                                    <small>
-                                        /{policy.premiumFrequency.toLowerCase()}
-                                    </small>
-                                </div>
+                                            <div className="pv-policy-card-title">
 
+                                                <div className="pv-policy-icon">
 
-                                <div>
-                                    <span>
-                                        Coverage
-                                    </span>
+                                                    <i className="bi bi-shield-check"></i>
 
-                                    <strong>
-                                        ₹
-                                        {policy.coverageAmount.toLocaleString(
-                                            "en-IN"
-                                        )}
-                                    </strong>
-                                </div>
+                                                </div>
 
+                                                <div>
 
-                                <div>
-                                    <span>
-                                        Next payment
-                                    </span>
+                                                    <h2>
+                                                        {policy.policyName}
+                                                    </h2>
 
-                                    <strong>
-                                        {new Date(
-                                            policy.nextPaymentDate
-                                        ).toLocaleDateString(
-                                            "en-IN",
-                                            {
-                                                day: "2-digit",
-                                                month: "short",
-                                                year: "numeric"
-                                            }
-                                        )}
-                                    </strong>
-                                </div>
+                                                    <p>
+                                                        {policy.provider}
+                                                        {" • "}
+                                                        Policy No.{" "}
+                                                        {policy.policyNumber}
+                                                    </p>
+
+                                                </div>
+
+                                            </div>
 
 
-                                <button
-                                    className="pv-policy-view-button"
-                                    onClick={() =>
-                                        navigate(
-                                            `/policies/${policy.id}`
-                                        )
-                                    }
-                                >
-                                    View details
-                                    <i className="bi bi-arrow-right"></i>
-                                </button>
+                                            <span className="pv-policy-status">
+                                                {policy.status}
+                                            </span>
 
-                            </div>
-
-                        </article>
-
-                    ))}
+                                        </div>
 
 
-                    {/* Empty State */}
+                                        <div className="pv-policy-card-details">
 
-                    {filteredPolicies.length === 0 && (
+                                            <div>
+
+                                                <span>
+                                                    Premium
+                                                </span>
+
+                                                <strong>
+                                                    ₹
+                                                    {Number(
+                                                        policy.premiumAmount
+                                                    ).toLocaleString(
+                                                        "en-IN"
+                                                    )}
+                                                </strong>
+
+                                                <small>
+                                                    /{(
+                                                        policy.premiumFrequency ||
+                                                        "Monthly"
+                                                    ).toLowerCase()}
+                                                </small>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <span>
+                                                    Coverage
+                                                </span>
+
+                                                <strong>
+                                                    ₹
+                                                    {Number(
+                                                        policy.coverageAmount
+                                                    ).toLocaleString(
+                                                        "en-IN"
+                                                    )}
+                                                </strong>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <span>
+                                                    Next payment
+                                                </span>
+
+                                                <strong>
+
+                                                    {policy.nextPaymentDate
+                                                        ? new Date(
+                                                            policy.nextPaymentDate
+                                                        ).toLocaleDateString(
+                                                            "en-IN",
+                                                            {
+                                                                day: "2-digit",
+                                                                month: "short",
+                                                                year: "numeric"
+                                                            }
+                                                        )
+                                                        : "Not set"
+                                                    }
+
+                                                </strong>
+
+                                            </div>
+
+
+                                            <button
+                                                className="pv-policy-view-button"
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/policies/${policy.id}`
+                                                    )
+                                                }
+                                            >
+
+                                                View details
+
+                                                <i className="bi bi-arrow-right"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </article>
+
+                                )
+                            )}
+
+                        </div>
+
+                    )}
+
+
+                {/* =================================
+                    Empty State
+                ================================= */}
+
+                {!loading &&
+                    !error &&
+                    filteredPolicies.length === 0 && (
 
                         <div className="pv-policy-empty surface">
 
@@ -276,12 +478,12 @@ function Policies() {
 
                     )}
 
-                </div>
-
             </div>
 
         </div>
+
     );
+
 }
 
 export default Policies;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { addPolicy } from "../data/policyStore";
+import { createPolicy } from "../services/api";
 import "./AddPolicy.css";
 
 function AddPolicy() {
@@ -28,6 +28,7 @@ function AddPolicy() {
     });
 
     const [error, setError] = useState("");
+    const [saving, setSaving] = useState(false);
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -38,7 +39,7 @@ function AddPolicy() {
         }));
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
 
         setError("");
@@ -66,16 +67,29 @@ function AddPolicy() {
             return;
         }
 
-        const policy = {
-            ...formData,
+        try {
+            setSaving(true);
 
-            premiumAmount: Number(formData.premiumAmount),
-            coverageAmount: Number(formData.coverageAmount)
-        };
+            const policy = {
+                ...formData,
 
-        addPolicy(policy);
+                premiumAmount: Number(formData.premiumAmount),
+                coverageAmount: Number(formData.coverageAmount)
+            };
 
-        navigate("/policies");
+            await createPolicy(policy);
+
+            navigate("/policies");
+        } catch (error) {
+            console.error("Unable to create policy:", error);
+
+            setError(
+                error.message ||
+                "Unable to save the policy. Please make sure the backend is running."
+            );
+        } finally {
+            setSaving(false);
+        }
     }
 
     return (
@@ -104,6 +118,7 @@ function AddPolicy() {
                     type="button"
                     className="pv-btn-outline"
                     onClick={() => navigate("/policies")}
+                    disabled={saving}
                 >
                     <i className="bi bi-arrow-left"></i>
                     <span>Back to policies</span>
@@ -155,6 +170,7 @@ function AddPolicy() {
                                 value={formData.policyName}
                                 onChange={handleChange}
                                 required
+                                disabled={saving}
                             />
                         </div>
 
@@ -172,6 +188,7 @@ function AddPolicy() {
                                 value={formData.provider}
                                 onChange={handleChange}
                                 required
+                                disabled={saving}
                             />
                         </div>
 
@@ -189,6 +206,7 @@ function AddPolicy() {
                                 value={formData.policyNumber}
                                 onChange={handleChange}
                                 required
+                                disabled={saving}
                             />
                         </div>
 
@@ -203,6 +221,7 @@ function AddPolicy() {
                                 name="policyType"
                                 value={formData.policyType}
                                 onChange={handleChange}
+                                disabled={saving}
                             >
                                 <option value="Life Insurance">
                                     Life Insurance
@@ -237,6 +256,7 @@ function AddPolicy() {
                                 name="status"
                                 value={formData.status}
                                 onChange={handleChange}
+                                disabled={saving}
                             >
                                 <option value="Active">
                                     Active
@@ -303,6 +323,7 @@ function AddPolicy() {
                                     value={formData.premiumAmount}
                                     onChange={handleChange}
                                     required
+                                    disabled={saving}
                                 />
                             </div>
                         </div>
@@ -318,6 +339,7 @@ function AddPolicy() {
                                 name="premiumFrequency"
                                 value={formData.premiumFrequency}
                                 onChange={handleChange}
+                                disabled={saving}
                             >
                                 <option value="Monthly">
                                     Monthly
@@ -355,6 +377,7 @@ function AddPolicy() {
                                     value={formData.coverageAmount}
                                     onChange={handleChange}
                                     required
+                                    disabled={saving}
                                 />
                             </div>
                         </div>
@@ -400,6 +423,7 @@ function AddPolicy() {
                                 type="date"
                                 value={formData.startDate}
                                 onChange={handleChange}
+                                disabled={saving}
                             />
                         </div>
 
@@ -415,6 +439,7 @@ function AddPolicy() {
                                 type="date"
                                 value={formData.maturityDate}
                                 onChange={handleChange}
+                                disabled={saving}
                             />
                         </div>
 
@@ -430,6 +455,7 @@ function AddPolicy() {
                                 type="date"
                                 value={formData.nextPaymentDate}
                                 onChange={handleChange}
+                                disabled={saving}
                             />
                         </div>
 
@@ -475,6 +501,7 @@ function AddPolicy() {
                                 placeholder="e.g. Rahul Sharma"
                                 value={formData.nomineeName}
                                 onChange={handleChange}
+                                disabled={saving}
                             />
                         </div>
 
@@ -489,6 +516,7 @@ function AddPolicy() {
                                 name="nomineeRelation"
                                 value={formData.nomineeRelation}
                                 onChange={handleChange}
+                                disabled={saving}
                             >
                                 <option value="Spouse">
                                     Spouse
@@ -557,6 +585,7 @@ function AddPolicy() {
                             placeholder="Add any useful information about this policy..."
                             value={formData.notes}
                             onChange={handleChange}
+                            disabled={saving}
                         />
 
                     </div>
@@ -585,6 +614,7 @@ function AddPolicy() {
                         type="button"
                         className="pv-btn-outline"
                         onClick={() => navigate("/policies")}
+                        disabled={saving}
                     >
                         Cancel
                     </button>
@@ -592,9 +622,19 @@ function AddPolicy() {
                     <button
                         type="submit"
                         className="pv-btn"
+                        disabled={saving}
                     >
-                        <i className="bi bi-check-lg"></i>
-                        <span>Save policy</span>
+                        <i
+                            className={
+                                saving
+                                    ? "bi bi-arrow-repeat"
+                                    : "bi bi-check-lg"
+                            }
+                        ></i>
+
+                        <span>
+                            {saving ? "Saving..." : "Save policy"}
+                        </span>
                     </button>
 
                 </div>
