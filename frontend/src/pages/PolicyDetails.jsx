@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { getPolicy } from "../services/api";
+import { deletePolicy, getPolicy } from "../services/api";
 import "./PolicyDetails.css";
 
 function PolicyDetails() {
@@ -10,6 +10,7 @@ function PolicyDetails() {
     const [policy, setPolicy] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
         async function loadPolicy() {
@@ -54,6 +55,37 @@ function PolicyDetails() {
         });
     };
 
+    async function handleDelete() {
+        const confirmed = window.confirm(
+            "Are you sure you want to delete this policy?"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            setDeleting(true);
+            setError("");
+
+            await deletePolicy(id);
+
+            navigate("/policies");
+        } catch (error) {
+            console.error(
+                "Unable to delete policy:",
+                error
+            );
+
+            setError(
+                error.message ||
+                "Unable to delete the policy. Please try again."
+            );
+
+            setDeleting(false);
+        }
+    }
+
     /* Loading state */
 
     if (loading) {
@@ -78,7 +110,7 @@ function PolicyDetails() {
 
     /* Error state */
 
-    if (error) {
+    if (error && !policy) {
         return (
             <div className="pv-policy-not-found">
 
@@ -147,6 +179,7 @@ function PolicyDetails() {
                 <button
                     className="pv-back-button"
                     onClick={() => navigate("/policies")}
+                    disabled={deleting}
                 >
                     <i className="bi bi-arrow-left"></i>
                     <span>Back to policies</span>
@@ -205,35 +238,56 @@ function PolicyDetails() {
                 <div className="pv-details-grid">
 
                     <div className="pv-detail-item">
-                        <span>Provider</span>
+
+                        <span>
+                            Provider
+                        </span>
 
                         <strong>
                             {policy.provider}
                         </strong>
+
                     </div>
 
+
                     <div className="pv-detail-item">
-                        <span>Policy type</span>
+
+                        <span>
+                            Policy type
+                        </span>
 
                         <strong>
                             {policy.policyType}
                         </strong>
+
                     </div>
 
+
                     <div className="pv-detail-item">
-                        <span>Policy number</span>
+
+                        <span>
+                            Policy number
+                        </span>
 
                         <strong>
                             {policy.policyNumber}
                         </strong>
+
                     </div>
 
+
                     <div className="pv-detail-item">
-                        <span>Coverage</span>
+
+                        <span>
+                            Coverage
+                        </span>
 
                         <strong>
-                            {formatCurrency(policy.coverageAmount)}
+                            {formatCurrency(
+                                policy.coverageAmount
+                            )}
                         </strong>
+
                     </div>
 
                 </div>
@@ -248,6 +302,7 @@ function PolicyDetails() {
                 <div className="pv-details-section-heading">
 
                     <div>
+
                         <div className="section-label">
                             Financial details
                         </div>
@@ -255,6 +310,7 @@ function PolicyDetails() {
                         <h2>
                             Premium
                         </h2>
+
                     </div>
 
                     <i className="bi bi-currency-rupee"></i>
@@ -265,12 +321,15 @@ function PolicyDetails() {
                 <div className="pv-premium-highlight">
 
                     <div>
+
                         <span>
                             Premium amount
                         </span>
 
                         <strong>
-                            {formatCurrency(policy.premiumAmount)}
+                            {formatCurrency(
+                                policy.premiumAmount
+                            )}
                         </strong>
 
                         <small>
@@ -279,9 +338,12 @@ function PolicyDetails() {
                                 "Monthly"
                             ).toLowerCase()}
                         </small>
+
                     </div>
 
+
                     <div>
+
                         <span>
                             Next payment
                         </span>
@@ -291,6 +353,7 @@ function PolicyDetails() {
                                 policy.nextPaymentDate
                             )}
                         </strong>
+
                     </div>
 
                 </div>
@@ -305,6 +368,7 @@ function PolicyDetails() {
                 <div className="pv-details-section-heading">
 
                     <div>
+
                         <div className="section-label">
                             Policy timeline
                         </div>
@@ -312,6 +376,7 @@ function PolicyDetails() {
                         <h2>
                             Important dates
                         </h2>
+
                     </div>
 
                     <i className="bi bi-calendar3"></i>
@@ -335,6 +400,7 @@ function PolicyDetails() {
 
                     </div>
 
+
                     <div className="pv-detail-item">
 
                         <span>
@@ -348,6 +414,7 @@ function PolicyDetails() {
                         </strong>
 
                     </div>
+
 
                     <div className="pv-detail-item">
 
@@ -375,6 +442,7 @@ function PolicyDetails() {
                 <div className="pv-details-section-heading">
 
                     <div>
+
                         <div className="section-label">
                             Nominee
                         </div>
@@ -382,6 +450,7 @@ function PolicyDetails() {
                         <h2>
                             Nominee details
                         </h2>
+
                     </div>
 
                     <i className="bi bi-people"></i>
@@ -403,6 +472,7 @@ function PolicyDetails() {
                         </strong>
 
                     </div>
+
 
                     <div className="pv-detail-item">
 
@@ -430,6 +500,7 @@ function PolicyDetails() {
                     <div className="pv-details-section-heading">
 
                         <div>
+
                             <div className="section-label">
                                 Additional information
                             </div>
@@ -437,15 +508,32 @@ function PolicyDetails() {
                             <h2>
                                 Notes
                             </h2>
+
                         </div>
 
                     </div>
+
 
                     <p className="pv-policy-notes">
                         {policy.notes}
                     </p>
 
                 </section>
+            )}
+
+
+            {/* Delete error */}
+
+            {error && policy && (
+                <div className="pv-form-error">
+
+                    <i className="bi bi-exclamation-circle"></i>
+
+                    <span>
+                        {error}
+                    </span>
+
+                </div>
             )}
 
 
@@ -456,18 +544,41 @@ function PolicyDetails() {
                 <button
                     className="pv-btn-outline"
                     onClick={() => navigate("/policies")}
+                    disabled={deleting}
                 >
                     <i className="bi bi-arrow-left"></i>
                     Back to policies
                 </button>
 
+
                 <button
                     className="pv-btn"
-                    disabled
-                    title="Edit functionality will be added next"
+                    onClick={() =>
+                        navigate(`/policies/${id}/edit`)
+                    }
+                    disabled={deleting}
                 >
                     <i className="bi bi-pencil"></i>
                     Edit policy
+                </button>
+
+
+                <button
+                    className="pv-btn"
+                    onClick={handleDelete}
+                    disabled={deleting}
+                >
+                    <i
+                        className={
+                            deleting
+                                ? "bi bi-arrow-repeat"
+                                : "bi bi-trash"
+                        }
+                    ></i>
+
+                    {deleting
+                        ? "Deleting..."
+                        : "Delete policy"}
                 </button>
 
             </div>

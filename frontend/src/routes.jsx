@@ -4,6 +4,7 @@ import AppLayout from "./layouts/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Policies from "./pages/Policies";
 import AddPolicy from "./pages/AddPolicy";
+import EditPolicy from "./pages/EditPolicy";
 import PolicyDetails from "./pages/PolicyDetails";
 
 import Payments from "./pages/Payments";
@@ -46,6 +47,11 @@ function AppRoutes() {
                 <Route
                     path="/policies/:id"
                     element={<PolicyDetails />}
+                />
+
+                <Route
+                    path="/policies/:id/edit"
+                    element={<EditPolicy />}
                 />
 
                 {/* Other pages */}
