@@ -1,11 +1,31 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { getPolicies } from "../data/policyStore";
+import { getPolicies } from "../services/api";
 import "./Analytics.css";
 
 function Analytics() {
     const navigate = useNavigate();
-    const policies = getPolicies();
+
+    const [policies, setPolicies] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadPolicies() {
+            try {
+                const data = await getPolicies();
+                setPolicies(data);
+            } catch (error) {
+                console.error(
+                    "Unable to load analytics policies:",
+                    error
+                );
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadPolicies();
+    }, []);
 
     const activePolicies = policies.filter(
         (policy) => policy.status === "Active"
@@ -56,10 +76,6 @@ function Analytics() {
         return formatCurrency(value);
     };
 
-    /*
-     * Policy type distribution
-     */
-
     const policyTypeData = useMemo(() => {
         const distribution = {};
 
@@ -82,10 +98,6 @@ function Analytics() {
             .sort((a, b) => b.count - a.count);
     }, [policies]);
 
-    /*
-     * Premium breakdown
-     */
-
     const premiumData = useMemo(() => {
         return [...policies]
             .sort(
@@ -103,10 +115,6 @@ function Analytics() {
         ...premiumData.map((policy) => policy.amount),
         1
     );
-
-    /*
-     * Coverage breakdown
-     */
 
     const coverageData = useMemo(() => {
         return [...policies]
@@ -126,12 +134,55 @@ function Analytics() {
         1
     );
 
+    if (loading) {
+        return (
+            <div className="pv-analytics-page">
+
+                <section className="pv-analytics-header">
+
+                    <div>
+                        <div className="section-label">
+                            Your vault
+                        </div>
+
+                        <h1 className="page-heading">
+                            Analytics
+                        </h1>
+
+                        <p className="pv-analytics-subtitle">
+                            Understand your coverage, premiums and policy mix at a glance.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        className="pv-btn"
+                        onClick={() => navigate("/policies")}
+                    >
+                        <i className="bi bi-shield-check"></i>
+                        <span>View policies</span>
+                    </button>
+
+                </section>
+
+                <section className="pv-analytics-card surface">
+                    <div className="pv-analytics-empty">
+                        <i className="bi bi-bar-chart"></i>
+
+                        <p>
+                            Loading analytics...
+                        </p>
+                    </div>
+                </section>
+
+            </div>
+        );
+    }
+
     return (
         <div className="pv-analytics-page">
 
-            {/* =========================================
-                Header
-            ========================================= */}
+            {/* Header */}
 
             <section className="pv-analytics-header">
 
@@ -161,9 +212,7 @@ function Analytics() {
             </section>
 
 
-            {/* =========================================
-                Overview Cards
-            ========================================= */}
+            {/* Overview Cards */}
 
             <section className="pv-analytics-summary">
 
@@ -254,9 +303,7 @@ function Analytics() {
             </section>
 
 
-            {/* =========================================
-                Main Analytics Grid
-            ========================================= */}
+            {/* Main Analytics Grid */}
 
             <section className="pv-analytics-grid">
 
@@ -423,9 +470,7 @@ function Analytics() {
             </section>
 
 
-            {/* =========================================
-                Premium Breakdown
-            ========================================= */}
+            {/* Premium Breakdown */}
 
             <section className="pv-analytics-card surface pv-breakdown-card">
 
@@ -515,9 +560,7 @@ function Analytics() {
             </section>
 
 
-            {/* =========================================
-                Coverage Breakdown
-            ========================================= */}
+            {/* Coverage Breakdown */}
 
             <section className="pv-analytics-card surface pv-breakdown-card">
 

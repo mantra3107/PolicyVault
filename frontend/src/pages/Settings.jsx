@@ -1,13 +1,41 @@
-import { useState } from "react";
-import { getSettings, saveSettings } from "../data/settingsStore";
+import { useEffect, useState } from "react";
+import { getSettings, updateSettings } from "../services/api";
 import "./Settings.css";
 
 function Settings() {
-    const [settings, setSettings] = useState(() =>
-        getSettings()
-    );
+    const [settings, setSettings] = useState({
+        name: "",
+        email: "",
+        currency: "INR",
+        dateFormat: "DD MMM YYYY",
+        paymentReminders: true,
+        policyExpiryReminders: true
+    });
 
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        async function loadSettings() {
+            try {
+                const data = await getSettings();
+                setSettings(data);
+            } catch (error) {
+                console.error(
+                    "Unable to load settings:",
+                    error
+                );
+
+                setError("Unable to load settings.");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadSettings();
+    }, []);
 
     const updateSetting = (key, value) => {
         setSettings((current) => ({
@@ -16,26 +44,74 @@ function Settings() {
         }));
 
         setSaved(false);
+        setError("");
     };
 
-    const handleSave = (event) => {
+    const handleSave = async (event) => {
         event.preventDefault();
 
-        saveSettings(settings);
-
-        setSaved(true);
-
-        setTimeout(() => {
+        try {
+            setSaving(true);
             setSaved(false);
-        }, 2500);
+            setError("");
+
+            const updatedSettings =
+                await updateSettings(settings);
+
+            setSettings(updatedSettings);
+            setSaved(true);
+
+            setTimeout(() => {
+                setSaved(false);
+            }, 2500);
+        } catch (error) {
+            console.error(
+                "Unable to save settings:",
+                error
+            );
+
+            setError(
+                error.message || "Unable to save settings."
+            );
+        } finally {
+            setSaving(false);
+        }
     };
+
+    if (loading) {
+        return (
+            <div className="pv-settings-page">
+
+                <section className="pv-settings-header">
+
+                    <div>
+                        <div className="section-label">
+                            Your account
+                        </div>
+
+                        <h1 className="page-heading">
+                            Settings
+                        </h1>
+
+                        <p className="pv-settings-subtitle">
+                            Manage your profile, preferences and PolicyVault reminders.
+                        </p>
+                    </div>
+
+                </section>
+
+                <div className="pv-settings-section surface">
+                    <div className="pv-family-empty">
+                        Loading settings...
+                    </div>
+                </div>
+
+            </div>
+        );
+    }
 
     return (
         <div className="pv-settings-page">
-
-            {/* =========================================
-                Header
-            ========================================= */}
 
             <section className="pv-settings-header">
 
@@ -56,18 +132,10 @@ function Settings() {
             </section>
 
 
-            {/* =========================================
-                Settings Form
-            ========================================= */}
-
             <form
                 className="pv-settings-form"
                 onSubmit={handleSave}
             >
-
-                {/* =====================================
-                    Profile
-                ===================================== */}
 
                 <section className="pv-settings-section surface">
 
@@ -143,10 +211,6 @@ function Settings() {
 
                 </section>
 
-
-                {/* =====================================
-                    Preferences
-                ===================================== */}
 
                 <section className="pv-settings-section surface">
 
@@ -244,10 +308,6 @@ function Settings() {
 
                 </section>
 
-
-                {/* =====================================
-                    Notifications
-                ===================================== */}
 
                 <section className="pv-settings-section surface">
 
@@ -360,10 +420,6 @@ function Settings() {
                 </section>
 
 
-                {/* =====================================
-                    Data
-                ===================================== */}
-
                 <section className="pv-settings-section surface">
 
                     <div className="pv-settings-section-header">
@@ -378,7 +434,7 @@ function Settings() {
                             </h2>
 
                             <p>
-                                Understand how your current development data is stored.
+                                Understand how your current PolicyVault data is stored.
                             </p>
                         </div>
 
@@ -398,18 +454,17 @@ function Settings() {
                         <div>
 
                             <strong>
-                                Local development storage
+                                MySQL database
                             </strong>
 
                             <p>
-                                Your current PolicyVault data is stored locally in your
-                                browser while the backend and MySQL database are being built.
+                                Your PolicyVault account settings are stored in the backend database.
                             </p>
 
                         </div>
 
                         <span className="pv-settings-data-status">
-                            Development
+                            Connected
                         </span>
 
                     </div>
@@ -417,15 +472,18 @@ function Settings() {
                 </section>
 
 
-                {/* =====================================
-                    Save Area
-                ===================================== */}
-
                 <div className="pv-settings-save-bar">
 
                     <div>
 
-                        {saved && (
+                        {error && (
+                            <span className="pv-settings-saved">
+                                <i className="bi bi-exclamation-circle"></i>
+                                {error}
+                            </span>
+                        )}
+
+                        {saved && !error && (
                             <span className="pv-settings-saved">
                                 <i className="bi bi-check-circle"></i>
                                 Changes saved
@@ -437,9 +495,13 @@ function Settings() {
                     <button
                         type="submit"
                         className="pv-btn"
+                        disabled={saving}
                     >
                         <i className="bi bi-check2"></i>
-                        Save changes
+
+                        {saving
+                            ? "Saving..."
+                            : "Save changes"}
                     </button>
 
                 </div>

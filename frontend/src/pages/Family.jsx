@@ -1,12 +1,65 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { getFamilyMembers } from "../data/familyStore";
+import { getPolicies } from "../services/api";
 import "./Family.css";
 
 function Family() {
     const navigate = useNavigate();
 
-    const familyMembers = getFamilyMembers();
+    const [policies, setPolicies] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadPolicies() {
+            try {
+                const data = await getPolicies();
+                setPolicies(data);
+            } catch (error) {
+                console.error(
+                    "Unable to load family policies:",
+                    error
+                );
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadPolicies();
+    }, []);
+
+    const familyMembers = useMemo(() => {
+        const members = {};
+
+        policies.forEach((policy) => {
+            if (!policy.nomineeName) {
+                return;
+            }
+
+            const name = policy.nomineeName.trim();
+
+            if (!name) {
+                return;
+            }
+
+            if (!members[name]) {
+                members[name] = {
+                    id: name,
+                    name,
+                    relation: policy.nomineeRelation || "Family",
+                    policies: [],
+                    totalCoverage: 0
+                };
+            }
+
+            members[name].policies.push(policy);
+
+            members[name].totalCoverage += Number(
+                policy.coverageAmount || 0
+            );
+        });
+
+        return Object.values(members);
+    }, [policies]);
 
     const totalCoverage = familyMembers.reduce(
         (total, member) =>
@@ -59,12 +112,59 @@ function Family() {
         return `pv-family-avatar-${index % 4}`;
     };
 
+    if (loading) {
+        return (
+            <div className="pv-family-page">
+
+                <section className="pv-family-header">
+
+                    <div>
+                        <div className="section-label">
+                            Your people
+                        </div>
+
+                        <h1 className="page-heading">
+                            Family
+                        </h1>
+
+                        <p className="pv-family-subtitle">
+                            Keep track of the people connected to your insurance protection.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        className="pv-btn"
+                        onClick={() => navigate("/policies")}
+                    >
+                        <i className="bi bi-people"></i>
+                        <span>View policies</span>
+                    </button>
+
+                </section>
+
+                <section className="pv-family-section surface">
+                    <div className="pv-family-empty">
+                        <i className="bi bi-people"></i>
+
+                        <h3>
+                            Loading family information...
+                        </h3>
+
+                        <p>
+                            Reading nominee information from your policies.
+                        </p>
+                    </div>
+                </section>
+
+            </div>
+        );
+    }
+
     return (
         <div className="pv-family-page">
 
-            {/* =========================================
-                Header
-            ========================================= */}
+            {/* Header */}
 
             <section className="pv-family-header">
 
@@ -94,9 +194,7 @@ function Family() {
             </section>
 
 
-            {/* =========================================
-                Summary
-            ========================================= */}
+            {/* Summary */}
 
             <section className="pv-family-summary">
 
@@ -186,9 +284,7 @@ function Family() {
             </section>
 
 
-            {/* =========================================
-                Family Members
-            ========================================= */}
+            {/* Family Members */}
 
             <section className="pv-family-section surface">
 
@@ -356,9 +452,7 @@ function Family() {
             </section>
 
 
-            {/* =========================================
-                Information Note
-            ========================================= */}
+            {/* Information Note */}
 
             <section className="pv-family-note">
 

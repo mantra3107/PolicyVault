@@ -1,18 +1,37 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { getPolicies } from "../data/policyStore";
+import { getPolicies } from "../services/api";
 import "./Calendar.css";
 
 function Calendar() {
     const navigate = useNavigate();
 
-    const policies = getPolicies();
-
     const today = new Date();
+
+    const [policies, setPolicies] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const [currentDate, setCurrentDate] = useState(
         new Date(today.getFullYear(), today.getMonth(), 1)
     );
+
+    useEffect(() => {
+        async function loadPolicies() {
+            try {
+                const data = await getPolicies();
+                setPolicies(data);
+            } catch (error) {
+                console.error(
+                    "Unable to load calendar policies:",
+                    error
+                );
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadPolicies();
+    }, []);
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -21,15 +40,6 @@ function Calendar() {
         month: "long",
         year: "numeric"
     });
-
-    /*
-     * Calendar starts on Monday.
-     *
-     * JavaScript:
-     * Sunday = 0
-     * Monday = 1
-     * ...
-     */
 
     const firstDay = new Date(year, month, 1).getDay();
 
@@ -50,10 +60,6 @@ function Calendar() {
 
     const calendarDays = [];
 
-    /*
-     * Previous month's trailing days
-     */
-
     for (let i = mondayOffset - 1; i >= 0; i--) {
         calendarDays.push({
             day: previousMonthDays - i,
@@ -66,10 +72,6 @@ function Calendar() {
         });
     }
 
-    /*
-     * Current month's days
-     */
-
     for (let day = 1; day <= daysInMonth; day++) {
         calendarDays.push({
             day,
@@ -78,17 +80,17 @@ function Calendar() {
         });
     }
 
-    /*
-     * Next month's leading days
-     */
-
     let nextDay = 1;
 
     while (calendarDays.length < 42) {
         calendarDays.push({
             day: nextDay,
             currentMonth: false,
-            date: new Date(year, month + 1, nextDay)
+            date: new Date(
+                year,
+                month + 1,
+                nextDay
+            )
         });
 
         nextDay++;
@@ -106,30 +108,33 @@ function Calendar() {
         const events = [];
 
         policies.forEach((policy) => {
+            if (policy.nextPaymentDate) {
+                const paymentDate = new Date(
+                    policy.nextPaymentDate
+                );
 
-            const paymentDate = new Date(
-                policy.nextPaymentDate
-            );
-
-            if (isSameDay(paymentDate, date)) {
-                events.push({
-                    type: "payment",
-                    title: policy.policyName,
-                    policyId: policy.id,
-                    amount: policy.premiumAmount
-                });
+                if (isSameDay(paymentDate, date)) {
+                    events.push({
+                        type: "payment",
+                        title: policy.policyName,
+                        policyId: policy.id,
+                        amount: policy.premiumAmount
+                    });
+                }
             }
 
-            const maturityDate = new Date(
-                policy.maturityDate
-            );
+            if (policy.maturityDate) {
+                const maturityDate = new Date(
+                    policy.maturityDate
+                );
 
-            if (isSameDay(maturityDate, date)) {
-                events.push({
-                    type: "maturity",
-                    title: `${policy.policyName} matures`,
-                    policyId: policy.id
-                });
+                if (isSameDay(maturityDate, date)) {
+                    events.push({
+                        type: "maturity",
+                        title: `${policy.policyName} matures`,
+                        policyId: policy.id
+                    });
+                }
             }
         });
 
@@ -158,50 +163,47 @@ function Calendar() {
         );
     };
 
-    /*
-     * Upcoming events
-     */
-
     const upcomingEvents = useMemo(() => {
-
         const events = [];
 
         policies.forEach((policy) => {
+            if (policy.nextPaymentDate) {
+                const paymentDate = new Date(
+                    policy.nextPaymentDate
+                );
 
-            const paymentDate = new Date(
-                policy.nextPaymentDate
-            );
-
-            if (paymentDate >= today) {
-                events.push({
-                    type: "payment",
-                    date: paymentDate,
-                    title: policy.policyName,
-                    subtitle: "Premium payment",
-                    amount: policy.premiumAmount,
-                    policyId: policy.id
-                });
+                if (paymentDate >= today) {
+                    events.push({
+                        type: "payment",
+                        date: paymentDate,
+                        title: policy.policyName,
+                        subtitle: "Premium payment",
+                        amount: policy.premiumAmount,
+                        policyId: policy.id
+                    });
+                }
             }
 
-            const maturityDate = new Date(
-                policy.maturityDate
-            );
+            if (policy.maturityDate) {
+                const maturityDate = new Date(
+                    policy.maturityDate
+                );
 
-            if (maturityDate >= today) {
-                events.push({
-                    type: "maturity",
-                    date: maturityDate,
-                    title: policy.policyName,
-                    subtitle: "Policy maturity",
-                    policyId: policy.id
-                });
+                if (maturityDate >= today) {
+                    events.push({
+                        type: "maturity",
+                        date: maturityDate,
+                        title: policy.policyName,
+                        subtitle: "Policy maturity",
+                        policyId: policy.id
+                    });
+                }
             }
         });
 
         return events
             .sort((a, b) => a.date - b.date)
             .slice(0, 6);
-
     }, [policies]);
 
     const formatDate = (date) => {
@@ -216,10 +218,50 @@ function Calendar() {
         return `₹${Number(amount).toLocaleString("en-IN")}`;
     };
 
+    if (loading) {
+        return (
+            <div className="pv-calendar-page">
+                <section className="pv-calendar-header">
+                    <div>
+                        <div className="section-label">
+                            Your schedule
+                        </div>
+
+                        <h1 className="page-heading">
+                            Calendar
+                        </h1>
+
+                        <p className="pv-calendar-subtitle">
+                            Keep your premium payments and policy milestones in view.
+                        </p>
+                    </div>
+
+                    <button
+                        className="pv-btn"
+                        onClick={goToToday}
+                    >
+                        <i className="bi bi-calendar2-check"></i>
+                        <span>Today</span>
+                    </button>
+                </section>
+
+                <section className="pv-calendar-layout">
+                    <div className="pv-calendar-card surface">
+                        <div className="pv-calendar-empty">
+                            <i className="bi bi-calendar3"></i>
+
+                            <p>
+                                Loading your calendar...
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        );
+    }
+
     return (
         <div className="pv-calendar-page">
-
-            {/* Page Header */}
 
             <section className="pv-calendar-header">
 
@@ -247,12 +289,7 @@ function Calendar() {
 
             </section>
 
-
-            {/* Calendar + Events */}
-
             <section className="pv-calendar-layout">
-
-                {/* Calendar */}
 
                 <div className="pv-calendar-card surface">
 
@@ -286,9 +323,6 @@ function Calendar() {
 
                     </div>
 
-
-                    {/* Weekdays */}
-
                     <div className="pv-calendar-weekdays">
 
                         {[
@@ -306,9 +340,6 @@ function Calendar() {
                         ))}
 
                     </div>
-
-
-                    {/* Days */}
 
                     <div className="pv-calendar-grid">
 
@@ -378,9 +409,6 @@ function Calendar() {
 
                     </div>
 
-
-                    {/* Legend */}
-
                     <div className="pv-calendar-legend">
 
                         <div>
@@ -402,9 +430,6 @@ function Calendar() {
 
                 </div>
 
-
-                {/* Upcoming Events */}
-
                 <aside className="pv-calendar-events-panel surface">
 
                     <div className="pv-events-panel-header">
@@ -418,7 +443,6 @@ function Calendar() {
                         </h2>
 
                     </div>
-
 
                     <div className="pv-upcoming-events">
 

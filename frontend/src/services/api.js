@@ -289,3 +289,40 @@ export async function deletePayment(id) {
         method: "DELETE"
     });
 }
+
+function normalizeSettings(settings) {
+    return {
+        id: settings.id,
+        name: settings.name,
+        email: settings.email,
+        currency: settings.currency,
+        dateFormat: settings.date_format,
+        paymentReminders: Boolean(settings.payment_reminders),
+        policyExpiryReminders: Boolean(
+            settings.policy_expiry_reminders
+        )
+    };
+}
+
+export async function getSettings() {
+    const response = await apiRequest("/settings/1");
+
+    return normalizeSettings(response.data);
+}
+
+export async function updateSettings(settings) {
+    const response = await apiRequest("/settings/1", {
+        method: "PUT",
+        body: JSON.stringify({
+            name: settings.name,
+            email: settings.email,
+            currency: settings.currency,
+            date_format: settings.dateFormat,
+            payment_reminders: settings.paymentReminders,
+            policy_expiry_reminders:
+                settings.policyExpiryReminders
+        })
+    });
+
+    return normalizeSettings(response.data);
+}
