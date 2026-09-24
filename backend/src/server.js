@@ -1,4 +1,5 @@
 const policyRoutes = require("./routes/policyRoutes");
+const settingsRoutes = require("./routes/settingsRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const express = require("express");
 const cors = require("cors");
@@ -22,6 +23,8 @@ app.use(express.json());
 app.use("/api/policies", policyRoutes);
 
 app.use("/api/payments", paymentRoutes);
+
+app.use("/api/settings", settingsRoutes);
 
 
 /* =========================================
