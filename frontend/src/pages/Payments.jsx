@@ -1,14 +1,42 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { getPolicies } from "../data/policyStore";
-import { getPayments } from "../data/paymentStore";
+import { getPolicies, getPayments } from "../services/api";
 import "./Payments.css";
 
 function Payments() {
     const navigate = useNavigate();
 
-    const policies = getPolicies();
-    const payments = getPayments();
+    const [policies, setPolicies] = useState([]);
+    const [payments, setPayments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        async function loadPayments() {
+            try {
+                setLoading(true);
+                setError("");
+
+                const [policyData, paymentData] = await Promise.all([
+                    getPolicies(),
+                    getPayments()
+                ]);
+
+                setPolicies(policyData);
+                setPayments(paymentData);
+            } catch (error) {
+                console.error("Unable to load payments:", error);
+
+                setError(
+                    "Unable to load payment information. Please make sure the backend is running."
+                );
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadPayments();
+    }, []);
 
     const today = new Date();
 
@@ -72,10 +100,28 @@ function Payments() {
         );
     };
 
+    if (loading) {
+        return (
+            <div className="pv-payments-page">
+                <div className="surface pv-loading">
+                    Loading payment information...
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="pv-payments-page">
+                <div className="surface pv-error">
+                    {error}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="pv-payments-page">
-
-            {/* Page Header */}
 
             <section className="pv-payments-header">
                 <div>
@@ -92,17 +138,28 @@ function Payments() {
                     </p>
                 </div>
 
-                <button
-                    className="pv-btn"
-                    onClick={() => navigate("/policies")}
-                >
-                    <i className="bi bi-shield-check"></i>
-                    <span>View policies</span>
-                </button>
+        <div className="pv-payments-header-actions">
+
+            <button
+                className="pv-btn-outline"
+                onClick={() => navigate("/policies")}
+            >
+            <i className="bi bi-shield-check"></i>
+            <span>View policies</span>
+            </button>
+
+            <button
+                className="pv-btn"
+                onClick={() => navigate("/payments/add")}
+            >
+            <i className="bi bi-plus-lg"></i>
+            <span>Record payment</span>
+            </button>
+
+        </div>
+
             </section>
 
-
-            {/* Summary */}
 
             <section className="pv-payment-summary">
 
@@ -192,8 +249,6 @@ function Payments() {
 
             </section>
 
-
-            {/* Upcoming Payments */}
 
             <section className="pv-payments-section surface">
 
@@ -324,8 +379,6 @@ function Payments() {
 
             </section>
 
-
-            {/* Payment History */}
 
             <section className="pv-payments-section surface">
 

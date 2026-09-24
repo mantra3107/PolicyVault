@@ -589,3 +589,37 @@
         padding: 1rem 1.25rem;
     }
 }
+
+.pv-payments-header-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 0.75rem;
+}
+
+.pv-payments-header-actions .pv-btn,
+.pv-payments-header-actions .pv-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+}
+
+
+@media (max-width: 767.98px) {
+    .pv-payments-header-actions {
+        width: 100%;
+
+        flex-direction: column;
+    }
+
+    .pv-payments-header-actions .pv-btn,
+    .pv-payments-header-actions .pv-btn-outline {
+        width: 100%;
+    }
+}

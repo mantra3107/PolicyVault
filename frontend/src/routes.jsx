@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Policies from "./pages/Policies";
 import AddPolicy from "./pages/AddPolicy";
 import EditPolicy from "./pages/EditPolicy";
+import AddPayment from "./pages/AddPayment";
 import PolicyDetails from "./pages/PolicyDetails";
 
 import Payments from "./pages/Payments";
@@ -58,6 +59,11 @@ function AppRoutes() {
                 <Route
                     path="/payments"
                     element={<Payments />}
+                />
+
+                <Route 
+                    path="/payments/add" 
+                    element={<AddPayment />}
                 />
 
                 <Route

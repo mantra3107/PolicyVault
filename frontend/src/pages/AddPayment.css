@@ -1,0 +1,390 @@
+.pv-add-payment-page {
+    width: 100%;
+}
+
+
+/* Header */
+
+.pv-add-payment-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 2rem;
+
+    margin-bottom: 2rem;
+}
+
+.pv-add-payment-header .page-heading {
+    margin: 0.5rem 0 0;
+}
+
+.pv-add-payment-subtitle {
+    max-width: 650px;
+
+    margin: 0.8rem 0 0;
+
+    color: var(--pv-text-muted);
+
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.pv-add-payment-header .pv-btn-outline {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 0.5rem;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+}
+
+
+/* Form */
+
+.pv-payment-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.5rem;
+}
+
+
+/* Form section */
+
+.pv-payment-form-section {
+    padding: 1.75rem;
+}
+
+.pv-payment-form-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-bottom: 1.5rem;
+
+    padding-bottom: 1.2rem;
+
+    border-bottom: 1px solid var(--pv-border);
+}
+
+.pv-payment-form-section-header h2 {
+    margin: 0.45rem 0 0;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 1.7rem;
+
+    font-weight: 400;
+}
+
+.pv-payment-form-section-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+
+    font-size: 1rem;
+}
+
+
+/* Form grid */
+
+.pv-payment-form-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 1.25rem 1.5rem;
+}
+
+.pv-payment-form-field {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.45rem;
+
+    min-width: 0;
+}
+
+.pv-payment-form-field-full {
+    grid-column: 1 / -1;
+}
+
+.pv-payment-form-field label {
+    color: var(--pv-text);
+
+    font-size: 0.78rem;
+
+    font-weight: 600;
+}
+
+.pv-payment-form-field input,
+.pv-payment-form-field select {
+    width: 100%;
+
+    padding: 0.8rem 0.9rem;
+
+    border: 1px solid var(--pv-border);
+
+    border-radius: var(--pv-radius);
+
+    background-color: var(--pv-surface);
+
+    color: var(--pv-text);
+
+    outline: none;
+
+    font-size: 0.9rem;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.pv-payment-form-field input:focus,
+.pv-payment-form-field select:focus {
+    border-color: var(--pv-green);
+
+    box-shadow: 0 0 0 3px rgba(18, 78, 59, 0.08);
+}
+
+
+/* Selected policy */
+
+.pv-selected-policy {
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1rem;
+
+    border: 1px solid var(--pv-border);
+
+    background-color: rgba(220, 233, 223, 0.35);
+}
+
+.pv-selected-policy-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background-color: var(--pv-green-light);
+
+    color: var(--pv-green);
+}
+
+.pv-selected-policy > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.2rem;
+
+    min-width: 0;
+}
+
+.pv-selected-policy strong {
+    color: var(--pv-text);
+
+    font-size: 0.9rem;
+}
+
+.pv-selected-policy span {
+    color: var(--pv-text-muted);
+
+    font-size: 0.78rem;
+}
+
+.pv-selected-policy-premium {
+    margin-left: auto;
+
+    display: flex;
+    align-items: baseline;
+
+    gap: 0.3rem;
+}
+
+.pv-selected-policy-premium span {
+    font-size: 0.72rem;
+}
+
+.pv-selected-policy-premium strong {
+    font-size: 0.95rem;
+}
+
+
+/* Rupee input */
+
+.pv-payment-input-with-prefix {
+    display: flex;
+    align-items: center;
+
+    border: 1px solid var(--pv-border);
+
+    border-radius: var(--pv-radius);
+
+    background-color: var(--pv-surface);
+
+    overflow: hidden;
+}
+
+.pv-payment-input-with-prefix span {
+    padding-left: 0.9rem;
+
+    color: var(--pv-text-muted);
+
+    font-size: 0.9rem;
+}
+
+.pv-payment-input-with-prefix input {
+    border: none;
+
+    box-shadow: none;
+
+    border-radius: 0;
+}
+
+.pv-payment-input-with-prefix input:focus {
+    box-shadow: none;
+}
+
+
+/* Error */
+
+.pv-payment-form-error {
+    display: flex;
+    align-items: center;
+
+    gap: 0.7rem;
+
+    padding: 0.9rem 1rem;
+
+    border: 1px solid rgba(185, 74, 72, 0.25);
+
+    background-color: rgba(185, 74, 72, 0.06);
+
+    color: var(--pv-danger);
+
+    font-size: 0.85rem;
+}
+
+
+/* Actions */
+
+.pv-payment-form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 0.75rem;
+
+    padding-bottom: 1rem;
+}
+
+.pv-payment-form-actions .pv-btn,
+.pv-payment-form-actions .pv-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    cursor: pointer;
+}
+
+
+/* Tablet */
+
+@media (max-width: 991.98px) {
+    .pv-add-payment-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+}
+
+
+/* Mobile */
+
+@media (max-width: 767.98px) {
+    .pv-add-payment-header {
+        gap: 1.25rem;
+    }
+
+    .pv-add-payment-header .page-heading {
+        font-size: 2.4rem;
+    }
+
+    .pv-add-payment-header .pv-btn-outline {
+        width: 100%;
+    }
+
+    .pv-payment-form-section {
+        padding: 1.1rem;
+    }
+
+    .pv-payment-form-grid {
+        grid-template-columns: 1fr;
+
+        gap: 1rem;
+    }
+
+    .pv-payment-form-field-full {
+        grid-column: auto;
+    }
+
+    .pv-payment-form-section-header {
+        margin-bottom: 1.2rem;
+    }
+
+    .pv-payment-form-section-header h2 {
+        font-size: 1.45rem;
+    }
+
+    .pv-selected-policy {
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+    }
+
+    .pv-selected-policy-premium {
+        width: 100%;
+
+        margin-left: 3.5rem;
+    }
+
+    .pv-payment-form-actions {
+        flex-direction: column-reverse;
+
+        width: 100%;
+    }
+
+    .pv-payment-form-actions .pv-btn,
+    .pv-payment-form-actions .pv-btn-outline {
+        width: 100%;
+    }
+}

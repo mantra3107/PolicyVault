@@ -249,3 +249,43 @@ export async function deletePolicy(id) {
     );
 
 }
+
+function normalizePayment(payment) {
+    return {
+        id: payment.id,
+        policyId: payment.policy_id,
+        policyName: payment.policy_name,
+        provider: payment.provider,
+        amount: Number(payment.amount),
+        paymentDate: payment.payment_date,
+        status: payment.status,
+        paymentMethod: payment.payment_method
+    };
+}
+
+export async function getPayments() {
+    const response = await apiRequest("/payments");
+
+    return response.data.map(normalizePayment);
+}
+
+export async function createPayment(payment) {
+    const response = await apiRequest("/payments", {
+        method: "POST",
+        body: JSON.stringify({
+            policy_id: payment.policyId,
+            amount: Number(payment.amount),
+            payment_date: payment.paymentDate,
+            status: payment.status || "Paid",
+            payment_method: payment.paymentMethod || null
+        })
+    });
+
+    return normalizePayment(response.data);
+}
+
+export async function deletePayment(id) {
+    return apiRequest(`/payments/${id}`, {
+        method: "DELETE"
+    });
+}

@@ -1,4 +1,5 @@
 const policyRoutes = require("./routes/policyRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
@@ -19,6 +20,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/policies", policyRoutes);
+
+app.use("/api/payments", paymentRoutes);
 
 
 /* =========================================
